@@ -9,10 +9,10 @@ const PurchaseSchema = new mongoose.Schema<IPurchase>({
         return `TICKET-${timestamp}`;
       }, },
     date: { type: Date, required: true, default: Date.now },
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'users', required: true },
     total: { type: Number, required: true },
     Payment_Type: { type: String, required: true },
-    cart: { type: Schema.Types.ObjectId, ref: 'Cart', required: true }
+    cart: { type: Schema.Types.ObjectId, ref: 'carts', required: true }
 
 
 });

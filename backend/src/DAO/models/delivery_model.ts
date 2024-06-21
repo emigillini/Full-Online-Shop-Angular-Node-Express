@@ -4,8 +4,8 @@ import { IDelivery} from '../../types';
 const DeliveryCollection = "delivery";
 
 const DeliverySchema = new mongoose.Schema<IDelivery>({
-    purchase: { type: Schema.Types.ObjectId, ref: 'Purchase', required: true },
-    tracking_number: { type: Number, required: true, default: function () {
+    purchase: { type: Schema.Types.ObjectId, ref: 'purchases', required: true },
+    tracking_number: { type: String, required: true, default: function () {
         const timestamp = Date.now().toString(15);
         return `TNUMBER-${timestamp}`;
       }, },
