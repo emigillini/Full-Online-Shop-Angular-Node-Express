@@ -14,6 +14,8 @@ const ProductSchema:Schema = new mongoose.Schema<IProduct>({
     image: { type: String, default: null },
     detail: { type: String, default: ''},
 });
+ProductSchema.set('toObject', { virtuals: true });
+ProductSchema.set('toJSON', { virtuals: true });
 
 export const ProductModel = mongoose.model<IProduct>(ProductsCollection, ProductSchema);
 

@@ -12,10 +12,21 @@ const PurchaseSchema:Schema = new mongoose.Schema<IPurchase>({
     user: { type: Schema.Types.ObjectId, ref: 'users', required: true },
     total: { type: Number, required: true },
     Payment_Type: { type: String, required: true },
-    cart: { type: Schema.Types.ObjectId, ref: 'carts', required: true }
+    products: [{
+      product: { type: Schema.Types.ObjectId, ref: 'products', required: true },
+      quantity: { type: Number, required: true },
+  }]
 
 
 });
+PurchaseSchema.virtual('delivery', {
+  ref: 'DeliveryModel',
+  localField: '_id',
+  foreignField: 'purchase'
+});
+
+PurchaseSchema.set('toObject', { virtuals: true });
+PurchaseSchema.set('toJSON', { virtuals: true });
 
 export const PurchaseModel = mongoose.model<IPurchase>(PurchaseCollection, PurchaseSchema);
 

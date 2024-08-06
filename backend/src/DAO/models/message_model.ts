@@ -10,4 +10,7 @@ const MessageSchema: Schema = new mongoose.Schema<IMessage>({
     created_at: { type: Date, default: Date.now }
 }, { timestamps: true });
 
+MessageSchema.set('toObject', { virtuals: true });
+MessageSchema.set('toJSON', { virtuals: true });
+
 export const MessageModel = mongoose.model<IMessage>(MessagesCollection, MessageSchema);

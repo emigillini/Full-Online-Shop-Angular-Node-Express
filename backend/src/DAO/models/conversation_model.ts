@@ -17,4 +17,7 @@ ConversationSchema.virtual('messages', {
     foreignField: 'conversation'
 });
 
+ConversationSchema.set('toObject', { virtuals: true });
+ConversationSchema.set('toJSON', { virtuals: true });
+
 export const ConversationModel = mongoose.model<IConversation>(ConversationsCollection, ConversationSchema);

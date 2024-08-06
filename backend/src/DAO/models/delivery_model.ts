@@ -15,6 +15,9 @@ const DeliverySchema:Schema = new mongoose.Schema<IDelivery>({
     delivery_status: { type: String, required:true},
 });
 
+DeliverySchema.set('toObject', { virtuals: true });
+DeliverySchema.set('toJSON', { virtuals: true });
+
 export const DeliveryModel = mongoose.model<IDelivery>(DeliveryCollection, DeliverySchema);
 
 

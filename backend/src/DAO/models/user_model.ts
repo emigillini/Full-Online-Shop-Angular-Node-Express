@@ -18,10 +18,19 @@ UserSchema.virtual('conversations', {
   localField: '_id',
   foreignField: 'user'
 });
+UserSchema.virtual('purchases', {
+  ref: 'PurchaseModel',
+  localField: '_id',
+  foreignField: 'user'
+});
 UserSchema.methods.updateLastConnection = async function(this:IUser) {
     this.last_connection = new Date();
     await this.save();
   };
+
+  UserSchema.set('toObject', { virtuals: true });
+  UserSchema.set('toJSON', { virtuals: true });
+  
 export const UserModel = mongoose.model<IUser>(usersCollection, UserSchema);
 
 

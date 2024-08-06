@@ -10,19 +10,19 @@ export type Delivery = "Pending" | "Transit" | "Complete"
 
 export interface IUser extends Document {
     username: string;
-    email: string;
+    email: string; 
     password: string,
     is_admin:boolean;
     last_connection?: Date, 
-    identification_number: number,
-    phone: string,
-    address:string
+    identification_number?: number,
+    phone?: string,
+    address?:string
 }
 export interface IConversation extends Document {
     name: string,
     user: IUser,
     created_at: Date,
-    closed_at: Date,
+    closed_at?: Date,
     open: boolean
 }
 export interface IMessage extends Document {
@@ -44,10 +44,15 @@ export interface IProduct extends Document {
     detail : string,
 }
 
+export interface ICartProduct {
+    product: Types.ObjectId;
+    quantity: number;
+}
+
 export interface ICart extends Document {
     user:IUser,
     date:Date
-    products:IProduct[]
+    products:ICartProduct[]
 
 }
 
@@ -57,9 +62,10 @@ export interface IPurchase extends Document {
     user:IUser,
     total:Number,
     Payment_Type:Payment,
-    cart:ICart
+    products: ICartProduct[];
 
 }
+
 
 export interface IDelivery extends Document {
     purchase:IPurchase;
@@ -68,8 +74,6 @@ export interface IDelivery extends Document {
     estimated_date :Date;
     delivery_date : Date;
     delivery_status : Delivery;
-
-
 }
 
 
