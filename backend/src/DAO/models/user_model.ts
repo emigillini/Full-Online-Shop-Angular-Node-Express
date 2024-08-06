@@ -1,14 +1,22 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { IUser } from '../../types';
 
 const usersCollection = "users";
 
-const UserSchema = new mongoose.Schema<IUser>({
+const UserSchema:Schema = new mongoose.Schema<IUser>({
     username: { type: String, required: true },
     email: { type: String, required: true , unique:true},
+    identification_number: { type: Number, unique: true, sparse: true },
     password: { type: String, required: true },
-    role: { type: String, default: "user" },
+    is_admin: { type: Boolean, default: false },
+    phone: { type: String, maxlength: 45 },
+    address: { type: String, maxlength: 45 },
     last_connection: { type: Date, default: Date.now }
+});
+UserSchema.virtual('conversations', {
+  ref: 'ConversationModel',
+  localField: '_id',
+  foreignField: 'user'
 });
 UserSchema.methods.updateLastConnection = async function(this:IUser) {
     this.last_connection = new Date();

@@ -3,7 +3,7 @@ import { IPurchase} from '../../types';
 
 const PurchaseCollection = "purchases";
 
-const PurchaseSchema = new mongoose.Schema<IPurchase>({
+const PurchaseSchema:Schema = new mongoose.Schema<IPurchase>({
     invoice_number: { type: String, required: true, default: function () {
         const timestamp = Date.now().toString(36);
         return `TICKET-${timestamp}`;

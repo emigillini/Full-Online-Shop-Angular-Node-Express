@@ -1,10 +1,10 @@
 
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { IProduct} from '../../types';
 
 const ProductsCollection = "products";
 
-const ProductSchema = new mongoose.Schema<IProduct>({
+const ProductSchema:Schema = new mongoose.Schema<IProduct>({
     model: { type: Number, required: true },
     brand: { type: String, required: true },
     color: { type: String, required: true },

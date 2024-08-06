@@ -1,8 +1,9 @@
-import express from "express";
+import express, { urlencoded } from "express";
 import mongoose from "mongoose";
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({extended:true}))
 const PORT = 3000;
 
 const connectDB = async () => {
@@ -23,6 +24,7 @@ app.get("/api", (req, res) => {
   const hiUser = "Hello New User...";
   res.send(hiUser);
 });
+
 app.listen(PORT, () => {
   console.log(`server is running on port  ${PORT}`);
 });

@@ -12,9 +12,26 @@ export interface IUser extends Document {
     username: string;
     email: string;
     password: string,
-    role:string;
-    last_connection: Date, 
+    is_admin:boolean;
+    last_connection?: Date, 
+    identification_number: number,
+    phone: string,
+    address:string
 }
+export interface IConversation extends Document {
+    name: string,
+    user: IUser,
+    created_at: Date,
+    closed_at: Date,
+    open: boolean
+}
+export interface IMessage extends Document {
+    conversation: IConversation,
+    sender:IUser,
+    content: string,
+    created_at: Date
+}
+
 
 export interface IProduct extends Document {
     model: Model;
