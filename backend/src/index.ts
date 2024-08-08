@@ -1,9 +1,11 @@
 import express, { urlencoded } from "express";
 import mongoose from "mongoose";
+import productRoutes from "./routes/products";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
+app.use('/api', productRoutes);
 const PORT = 3000;
 
 const connectDB = async () => {
@@ -19,11 +21,6 @@ const connectDB = async () => {
 };
 
 connectDB();
-
-app.get("/api", (req, res) => {
-  const hiUser = "Hello New User...";
-  res.send(hiUser);
-});
 
 app.listen(PORT, () => {
   console.log(`server is running on port  ${PORT}`);
