@@ -9,7 +9,7 @@ const ConversationSchema: Schema = new mongoose.Schema<IConversation>({
     created_at: { type: Date, default: Date.now },
     closed_at: { type: Date, default: null },
     open: { type: Boolean, default: true }
-}, { timestamps: true });
+});
 
 ConversationSchema.virtual('messages', {
     ref: 'MessageModel',

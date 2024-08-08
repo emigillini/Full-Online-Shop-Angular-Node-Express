@@ -8,7 +8,7 @@ const MessageSchema: Schema = new mongoose.Schema<IMessage>({
     sender: { type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true },
     content: { type: String, required: true },
     created_at: { type: Date, default: Date.now }
-}, { timestamps: true });
+});
 
 MessageSchema.set('toObject', { virtuals: true });
 MessageSchema.set('toJSON', { virtuals: true });

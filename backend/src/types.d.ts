@@ -21,15 +21,15 @@ export interface IUser extends Document {
 export interface IConversation extends Document {
     name: string,
     user: IUser,
-    created_at: Date,
-    closed_at?: Date,
+    created_at: date,
+    closed_at?: date,
     open: boolean
 }
 export interface IMessage extends Document {
     conversation: IConversation,
     sender:IUser,
     content: string,
-    created_at: Date
+    created_at: date
 }
 
 
@@ -44,23 +44,23 @@ export interface IProduct extends Document {
     detail : string,
 }
 
-export interface ICartProduct {
+export interface ICartProduct extends Document {
     product: Types.ObjectId;
     quantity: number;
 }
 
 export interface ICart extends Document {
     user:IUser,
-    date:Date
+    date:date
     products:ICartProduct[]
 
 }
 
 export interface IPurchase extends Document {
-    invoice_number:String,
-    date:Date,
+    invoice_number:string,
+    date:date,
     user:IUser,
-    total:Number,
+    total:number,
     Payment_Type:Payment,
     products: ICartProduct[];
 
@@ -69,10 +69,10 @@ export interface IPurchase extends Document {
 
 export interface IDelivery extends Document {
     purchase:IPurchase;
-    tracking_number :String;
-    delivery_address: String;
-    estimated_date :Date;
-    delivery_date : Date;
+    tracking_number :string;
+    delivery_address: string;
+    estimated_date :date;
+    delivery_date : date;
     delivery_status : Delivery;
 }
 
