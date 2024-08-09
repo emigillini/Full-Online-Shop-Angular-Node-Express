@@ -1,6 +1,7 @@
 
 import { ILoginUser, IRegisterUser } from "../types/auth.types";
 import { UserManager } from "../managers/user.manager";
+import { IUser } from "../types/types";
 
 const userMan= new UserManager()
 
@@ -28,6 +29,15 @@ export class UserService {
 async getAllUsers() {
     try {
       return await userMan.getAllUsers();
+    } catch (error) {
+      console.error('Error Fetching Users:', error);
+      throw new Error(`Error Fetching Users: ${error.message}`);
+    }
+  }
+
+  async updateUser(user:IUser, updateData:Partial<IUser>) {
+    try {
+      return await userMan.updateUser(user, updateData);
     } catch (error) {
       console.error('Error Fetching Users:', error);
       throw new Error(`Error Fetching Users: ${error.message}`);

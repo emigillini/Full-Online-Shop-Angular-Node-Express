@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { UserModel } from '../DAO/models/user_model';
 import { IRegisterUser, ILoginUser } from '../types/auth.types';
+import { IUser } from '../types/types';
 
 export class UserManager {
   private saltRounds: number = 10;
@@ -40,9 +41,17 @@ export class UserManager {
   
   async getAllUsers() {
     try {
-      return await UserModel.find().select('-password'); // Excluye el campo de la contraseña
+      return await UserModel.find().select('-password'); 
     } catch (error) {
       throw new Error(`Error fetching users: ${error.message}`);
+    }
+  }
+  async updateUser(user:IUser, updateData:Partial<IUser>) {
+    try {
+      const updatedUser = await UserModel.findByIdAndUpdate(user.id, updateData, { new: true }).select('-password');
+      return updatedUser;
+    } catch (error) {
+      throw new Error(`Error updating user: ${error.message}`);
     }
   }
 }

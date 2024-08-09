@@ -9,6 +9,7 @@ export type Delivery = "Pending" | "Transit" | "Complete"
 
 
 export interface IUser extends Document {
+    id?: string;
     username: string;
     email: string; 
     password: string,
@@ -34,6 +35,7 @@ export interface IMessage extends Document {
 
 
 export interface IProduct extends Document {
+    id?: string;
     model: Model;
     brand: Brand;
     color: Color,
@@ -45,6 +47,7 @@ export interface IProduct extends Document {
 }
 
 export interface ICartProduct extends Document {
+    id?: string;
     product: Types.ObjectId;
     quantity: number;
 }
@@ -57,6 +60,7 @@ export interface ICart extends Document {
 }
 
 export interface IPurchase extends Document {
+    id?: string;
     invoice_number:string,
     date:date,
     user:IUser,
@@ -68,6 +72,7 @@ export interface IPurchase extends Document {
 
 
 export interface IDelivery extends Document {
+    id?: string;
     purchase:IPurchase;
     tracking_number :string;
     delivery_address: string;
