@@ -8,7 +8,7 @@ export class ProductController {
  
     async addProduct(req: Request, res: Response): Promise<void> {
         try {
-            const product = await prodserv.createProduct(req.body);
+            const product = await prodserv.createProduct(req.body);             
             res.status(201).json(product);
         } catch (error) {
             console.error("Error in ProductController addProduct:", error);
@@ -28,7 +28,12 @@ export class ProductController {
 
     async getProductByIds(req: Request, res: Response): Promise<void> {
         try {
-            const product = await prodserv.getProductById(req.params.id);
+            const id = req.params.id;
+            if (!id) {
+                res.status(400).json({ message: 'Product ID is required' });
+                return;
+            }
+            const product = await prodserv.getProductById(id);
             if (product) {
                 res.status(200).json(product);
             } else {

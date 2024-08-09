@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { IMessage } from '../../types';
+import { IMessage } from '../../types/types';
 
 const MessagesCollection = "messages";
 

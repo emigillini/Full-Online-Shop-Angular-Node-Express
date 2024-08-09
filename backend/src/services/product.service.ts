@@ -1,5 +1,5 @@
 import { ProductManager } from "../managers/product.manager";
-import { IProduct } from "../types";
+import { IProduct } from "../types/types";
 
 const prodman= new ProductManager()
 

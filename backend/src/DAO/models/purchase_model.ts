@@ -1,5 +1,5 @@
 import mongoose,  { Schema } from 'mongoose';
-import { IPurchase} from '../../types';
+import { IPurchase} from '../../types/types';
 
 const PurchaseCollection = "purchases";
 

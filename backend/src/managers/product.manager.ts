@@ -1,5 +1,5 @@
 import { ProductModel } from "../DAO/models/product_model";
-import { IProduct } from "../types";
+import { IProduct } from "../types/types";
 import { Types } from "mongoose";
 
 export class ProductManager {

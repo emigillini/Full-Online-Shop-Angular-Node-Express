@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { IConversation } from '../../types';
+import { IConversation } from '../../types/types';
 
 const ConversationsCollection = "conversations";
 

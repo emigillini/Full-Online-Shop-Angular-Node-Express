@@ -76,6 +76,3 @@ export interface IDelivery extends Document {
     delivery_status : Delivery;
 }
 
-
-
-

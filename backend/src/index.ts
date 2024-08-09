@@ -1,17 +1,25 @@
-import express, { urlencoded } from "express";
+import * as dotenv from 'dotenv';
+dotenv.config();
+import express from "express";
 import mongoose from "mongoose";
-import productRoutes from "./routes/products";
+import productRoutes from "./routes/products.routes";
+import userRoutes from "./routes/user.routes";
+import passport from './config/passport';
 
 const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
-app.use('/api', productRoutes);
-const PORT = 3000;
+app.use(passport.initialize());
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
+const PORT:string = process.env.PORT
+
 
 const connectDB = async () => {
   try {
     await mongoose.connect(
-      "mongodb+srv://admin:admin@cluster0.spvzvph.mongodb.net/"
+      process.env.MOONGOSE_CONNECT
     );
     console.log("Connection to the database successful");
   } catch (error) {

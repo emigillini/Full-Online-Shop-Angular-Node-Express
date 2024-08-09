@@ -1,5 +1,5 @@
 import mongoose, {Schema} from 'mongoose';
-import { IDelivery} from '../../types';
+import { IDelivery} from '../../types/types';
 
 const DeliveryCollection = "delivery";
 

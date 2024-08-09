@@ -1,5 +1,5 @@
 import mongoose,  { Schema } from 'mongoose';
-import { ICart} from '../../types';
+import { ICart} from '../../types/types';
 
 const CartsCollection = "carts";
 
