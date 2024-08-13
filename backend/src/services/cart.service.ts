@@ -39,10 +39,10 @@ export class CartService {
             throw new Error(`Error adding product: ${error.message}`);
         }
     }
-    async removeProduct(cart:ICart, product_id: Types.ObjectId, quantity:number): Promise<string> {
+    async removeProduct(cart:ICart, product_id: Types.ObjectId, quantity:number): Promise<ICart> {
         try{
             await cartman.removeProduct(cart,product_id, quantity); 
-            return "Product deleted succesfully"
+            return cart
 
         } catch (error) {
             console.error("Error in CartService removeProduct:", error);
