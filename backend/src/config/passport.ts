@@ -14,9 +14,9 @@ const options: StrategyOptions = {
 const jwtFromRequest = (req: any) => {
     const authHeader = req.headers.authorization;
     if (authHeader && authHeader.startsWith('Token ')) {
-        return authHeader.split(' ')[1]; // Retorna el token después de "Token "
+        return authHeader.split(' ')[1]; 
     }
-    return null; // No se encontró token
+    return null;
 };
 
 passport.use(new JwtStrategy({...options, jwtFromRequest}, async (jwtPayload, done) => {

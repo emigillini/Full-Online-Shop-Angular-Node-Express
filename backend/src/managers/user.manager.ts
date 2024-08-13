@@ -10,11 +10,10 @@ export class UserManager {
   async registerUser(userData: IRegisterUser) {
     try {
       const hashedPassword = await bcrypt.hash(userData.password, this.saltRounds);
-      const user = new UserModel({
+      const user = await UserModel.create({
         ...userData,
         password: hashedPassword
-      });
-      await user.save();
+    });
       return user;
     } catch (error) {
       throw new Error(`Error registering user: ${error.message}`);

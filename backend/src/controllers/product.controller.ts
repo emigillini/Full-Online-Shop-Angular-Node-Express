@@ -8,7 +8,24 @@ export class ProductController {
  
     async addProduct(req: Request, res: Response): Promise<void> {
         try {
-            const product = await prodserv.createProduct(req.body);             
+            const product = req.body;   
+            if (!product.model || !product.brand || !product.color || !product.size || product.price === undefined || product.stock === undefined) {
+                res.status(400).json({ message: 'Model, brand, color, size, price, and stock are required' });
+                return;
+              }
+              if (typeof product.price !== 'number' || product.price <= 0) {
+                res.status(400).json({ message: 'Price must be a positive number' });
+                return;
+              }
+              if (typeof product.stock !== 'number' || product.stock < 0) {
+                res.status(400).json({ message: 'Stock must be a non-negative number' });
+                return;
+              }
+              if (typeof product.image !== 'string' || typeof product.detail !== 'string') {
+                res.status(400).json({ message: 'Image and detail must be strings' });
+                return;
+              }
+               await prodserv.createProduct(product);
             res.status(201).json(product);
         } catch (error) {
             console.error("Error in ProductController addProduct:", error);
@@ -22,7 +39,7 @@ export class ProductController {
             res.status(200).json(products);
         } catch (error) {
             console.error("Error in ProductController getAllProducts:", error);
-            res.status(500).json({ message: error.message });
+            res.status(500).json({ message: error.message });                  
         }
     }
 
@@ -69,6 +86,22 @@ export class ProductController {
             res.status(400).json({ message: 'Invalid input' });
             return;
         }
+        if (updateData.price !== undefined && (typeof updateData.price !== 'number' || updateData.price <= 0)) {
+            res.status(400).json({ message: 'Price must be a positive number' });
+            return;
+          }
+          if (updateData.stock !== undefined && (typeof updateData.stock !== 'number' || updateData.stock < 0)) {
+            res.status(400).json({ message: 'Stock must be a non-negative number' });
+            return;
+          }
+          if (updateData.image !== undefined && typeof updateData.image !== 'string') {
+            res.status(400).json({ message: 'Image must be a string' });
+            return;
+          }
+          if (updateData.detail !== undefined && typeof updateData.detail !== 'string') {
+            res.status(400).json({ message: 'Detail must be a string' });
+            return;
+          }
             const product= await prodserv.modifiedProduct(id, updateData)
             if (product) {
                 res.status(200).json(product);
