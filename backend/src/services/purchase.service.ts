@@ -1,7 +1,7 @@
 
 
 import { Types } from "mongoose";
-import { IPurchase } from "../types/types";
+import { IPurchase , IDelivery} from "../types/types";
 import { PurchaseManager } from "../managers/purchase.manager";
 
 
@@ -10,7 +10,7 @@ const purchaseman = new PurchaseManager()
 
 export class PurchaseService {
  
-    async confirm_purchase(userid:Types.ObjectId, paymentType:string): Promise<IPurchase> {
+    async confirm_purchase(userid:Types.ObjectId, paymentType:string): Promise<{ purchase: IPurchase; delivery: IDelivery }> {
         try {
           const purchase= await purchaseman.create_purchase(userid, paymentType)
           return purchase

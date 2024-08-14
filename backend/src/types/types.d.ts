@@ -4,7 +4,7 @@ export type Color = "red" | "blue" | "white" | "black"
 export type Brand = "nike" | "adidas" | "puma" |"reebok"
 export type Model = 2024 | 2023|2022|2000
 export type Size = 5 | 6 | 7 | 8
-export type Payment = "Debit_Card" | "Paypal" | "Credit_Card" 
+export type Payment = "Cash" | "Stripe" 
 export type Delivery = "Pending" | "Transit" | "Complete" 
 
 
@@ -76,7 +76,7 @@ export interface IPurchase extends Document {
 
 export interface IDelivery extends Document {
     _id?: Types.ObjectId;
-    purchase:IPurchase;
+    purchase:Types.ObjectId;
     tracking_number :string;
     delivery_address: string;
     estimated_date :Date;

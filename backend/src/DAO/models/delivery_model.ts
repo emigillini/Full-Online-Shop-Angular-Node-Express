@@ -1,7 +1,9 @@
 import mongoose, {Schema} from 'mongoose';
 import { IDelivery} from '../../types/types';
+import { addDays } from '../../utils/utils';
 
 const DeliveryCollection = "delivery";
+
 
 const DeliverySchema:Schema = new mongoose.Schema<IDelivery>({
     purchase: { type: Schema.Types.ObjectId, ref: 'purchases', required: true },
@@ -10,7 +12,13 @@ const DeliverySchema:Schema = new mongoose.Schema<IDelivery>({
         return `TNUMBER-${timestamp}`;
       }, },
     delivery_address: { type: String, required: true },
-    estimated_date: { type: Date, required: true , default: Date.now },
+    estimated_date: { 
+      type: Date, 
+      required: true, 
+      default: function() {
+          return addDays(new Date(), 3); 
+      } 
+  },
     delivery_date: { type: Date ,  required:true, default: Date.now },
     delivery_status: { type: String, required:true},
 });

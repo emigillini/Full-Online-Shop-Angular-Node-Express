@@ -6,6 +6,7 @@ import productRoutes from "./routes/products.routes";
 import userRoutes from "./routes/user.routes";
 import cartRoutes from './routes/cart.routes';
 import purchaseRoutes from './routes/purchase.routes';
+import deliveryRoutes from './routes/delivery.routes';
 import passport from './config/passport';
 
 const app = express();
@@ -17,6 +18,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/purchase', purchaseRoutes);
+app.use('/api/deliveries', deliveryRoutes);
 const PORT:string = process.env.PORT
 
 

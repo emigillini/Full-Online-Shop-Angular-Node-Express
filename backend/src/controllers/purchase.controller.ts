@@ -3,6 +3,7 @@
 import { Request, Response } from "express";
 import { PurchaseService } from "../services/purchase.service";
 import { IUser } from "../types/types";
+import { Payment } from "../types/types";
 
 
 
@@ -19,15 +20,26 @@ export class PurchaseController {
                 return;
             }
             const paymentType = req.body.paymentType; 
+             
 
             if ( !paymentType) {
                 res.status(400).json({ message: "Cart ID and payment type are required" });
                 return;
             }
-            
-            const purchase = await purchaseserv.confirm_purchase(user._id, paymentType); 
+            const validPayment: Payment[] = ["Stripe", "Cash"];
 
-            res.status(200).json({"message":"PurchaseCreated", "purchase":purchase });
+            if (!validPayment.includes(paymentType as Payment)) {
+                res.status(400).json({ message: `Invalid Payment Type: ${paymentType}, valid Payments :"Stripe", "Cash" ` });
+                return;
+            }
+            
+            const result = await purchaseserv.confirm_purchase(user._id, paymentType); 
+
+            res.status(200).json({
+                message: "Purchase and delivery created successfully",
+                purchase: result.purchase,
+                delivery: result.delivery
+            });
            
          
 
