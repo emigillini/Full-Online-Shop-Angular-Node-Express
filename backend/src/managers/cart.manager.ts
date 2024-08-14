@@ -5,20 +5,24 @@ import { Types } from "mongoose";
 
 export class CartManager {
 
-    async createCart(user: IUser): Promise<ICart> {
+    async createCart(userId: Types.ObjectId): Promise<ICart> {
         try {
-            const newCart = new CartModel({ user: user._id, date: new Date(), products: [] });
-            await newCart.save();
-            return newCart.populate('user');
+        
+            const newCart = await CartModel.create({
+                user: userId,
+                date: new Date(),
+                products: []
+            });
+            return newCart;
         } catch (error) {
             console.error("Error in CartManager createCart:", error);
             throw new Error(`Error creating cart: ${error.message}`);
         }
     }
 
-    async deleteCart(user: IUser): Promise<string> {
+    async deleteCart(userId:Types.ObjectId): Promise<string> {
         try {
-            const cart = await CartModel.findOneAndDelete({ user: user._id });
+            const cart = await CartModel.findOneAndDelete({ user: userId });
             if (!cart) {
                 throw new Error("Cart not found");
             }
@@ -35,6 +39,10 @@ export class CartManager {
             if (!product) {
                 throw new Error("Product not found");
             }
+
+            if (product.stock < quantity) {
+                throw new Error("Insufficient stock");
+            }
             const productIndex = cart.products.findIndex(p => p.product.toString() === product.toString());
 
             if (productIndex > -1) {
@@ -47,7 +55,7 @@ export class CartManager {
 
     
             await cart.save();
-            return cart.populate('products.product')
+            return cart
         } catch (error) {
             console.error("Error in CartManager addProduct:", error);
             throw new Error(`Error adding product to cart: ${error.message}`);
@@ -72,7 +80,7 @@ export class CartManager {
                 }
 
                 await cart.save();
-                return cart.populate('products.product')
+                return cart
             } else {
                 throw new Error("Product not found in cart");
             }
@@ -82,13 +90,17 @@ export class CartManager {
         }
     }
 
-    async getCartByUser(user: IUser): Promise<ICart | null> {
+    async getCartByUser(userId: Types.ObjectId): Promise<ICart | null> {
         try {
-           
-            return await CartModel.findOne({ user: user._id }).populate('products.product').populate('user'); 
+           const cart = await CartModel.findOne({ user: userId }) 
+           .populate('products.product')
+           .populate("user")
+                .exec();
+            return cart
         } catch (error) {
             console.error("Error in CartManager getCartByUser:", error);
             throw new Error(`Error fetching cart by user: ${error.message}`);
         }
     }
+  
 }

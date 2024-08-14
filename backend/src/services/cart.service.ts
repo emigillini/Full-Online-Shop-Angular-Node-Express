@@ -1,16 +1,17 @@
 
 import { CartManager } from "../managers/cart.manager";
-import { ICart, IProduct, IUser } from "../types/types";
+import { ICart} from "../types/types";
 import { Types } from "mongoose";
+
 
 
 const cartman= new CartManager()
 
 export class CartService {
  
-    async createCart(user:IUser): Promise<ICart> {
+    async createCart(userId:Types.ObjectId): Promise<ICart> {
         try {
-          const cart= await cartman.createCart(user)
+          const cart= await cartman.createCart(userId)
           return cart
         } catch (error) {
             console.error("Error in CartService createCart:", error);
@@ -18,9 +19,9 @@ export class CartService {
         }
     }
 
-    async deleteCart(user:IUser): Promise<string> {
+    async deleteCart(userId:Types.ObjectId): Promise<string> {
         try {
-            await cartman.deleteCart(user); 
+            await cartman.deleteCart(userId); 
             return "Cart deleted successfully";
 
         } catch (error) {
@@ -29,29 +30,33 @@ export class CartService {
         }
     }
 
-    async addProduct(cart:ICart, product_id: Types.ObjectId, quantity:number): Promise<ICart> {
+    async addProduct(userId:Types.ObjectId, product_id: Types.ObjectId, quantity:number): Promise<ICart> {
         try {
+            const cart = await this.getOrCreateCart(userId);
             await cartman.addProduct(cart,product_id, quantity); 
-            return cart
+            const updatedCart = await this.getCartByUser(userId)
+            return updatedCart
            
         } catch (error) {
             console.error("Error in CartService addProduct:", error);
             throw new Error(`Error adding product: ${error.message}`);
         }
     }
-    async removeProduct(cart:ICart, product_id: Types.ObjectId, quantity:number): Promise<ICart> {
+    async removeProduct(userId:Types.ObjectId, product_id: Types.ObjectId, quantity:number): Promise<ICart> {
         try{
+            const cart = await this.getOrCreateCart(userId);
             await cartman.removeProduct(cart,product_id, quantity); 
-            return cart
+            const updatedCart = await this.getCartByUser(userId)
+            return updatedCart
 
         } catch (error) {
             console.error("Error in CartService removeProduct:", error);
             throw new Error(`Error removing product: ${error.message}`);
         }
     } 
-    async getCartByUser(user:IUser): Promise<ICart | null> {
+    async getCartByUser(userId:Types.ObjectId): Promise<ICart | null> {
         try {
-            const cart = await cartman.getCartByUser(user);
+            const cart = await cartman.getCartByUser(userId);
             return cart
 
 
@@ -60,11 +65,11 @@ export class CartService {
             throw new Error(`Error fetching cart: ${error.message}`);
         }
     }
-    async getOrCreateCart(user:IUser): Promise<ICart> {
+    async getOrCreateCart(userId:Types.ObjectId): Promise<ICart> {
         try {
-            let cart = await this.getCartByUser(user);
+            let cart = await this.getCartByUser(userId);
             if (!cart) {
-                cart = await this.createCart(user);
+                cart = await this.createCart(userId);
             }
             return cart
 

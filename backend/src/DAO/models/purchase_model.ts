@@ -10,13 +10,9 @@ const PurchaseSchema:Schema = new mongoose.Schema<IPurchase>({
       }, },
     date: { type: Date, required: true, default: Date.now },
     user: { type: Schema.Types.ObjectId, ref: 'users', required: true },
-    total: { type: Number, required: true },
+    total: { type: Number, required: true, default:0 },
     Payment_Type: { type: String, required: true, enum: ["Debit_Card", "Paypal", "Credit_Card"] },
-    products: [{
-      product: { type: Schema.Types.ObjectId, ref: 'products', required: true },
-      quantity: { type: Number, required: true },
-  }]
-
+    cart: { type: Schema.Types.ObjectId, ref: 'carts', required: true },
 
 })
 PurchaseSchema.virtual('delivery', {

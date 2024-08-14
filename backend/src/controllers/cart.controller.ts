@@ -14,7 +14,7 @@ export class CartController {
                 res.status(400).json({ message: "User is not authenticated" });
                 return;
             }
-            await cartserv.deleteCart(user); 
+            await cartserv.deleteCart(user.id); 
             res.status(200).json("cart deleted successfully");
 
         } catch (error) {
@@ -31,7 +31,6 @@ export class CartController {
                 res.status(400).json({ message: "User is not authenticated" });
                 return;
             }
-            const cart= await cartserv.getOrCreateCart(user)
             const product_id = req.body.product_id;
             const quantity = parseInt(req.body.quantity, 10) || 1;
             if (!product_id) {
@@ -43,7 +42,7 @@ export class CartController {
                 return;
             }
 
-            const updatedCart = await cartserv.addProduct(cart, product_id, quantity); 
+            const updatedCart = await cartserv.addProduct(user._id, product_id, quantity); 
 
             res.status(200).json({"messsage":"Product Added", cart: updatedCart });
            
@@ -59,10 +58,9 @@ export class CartController {
                 res.status(400).json({ message: "User is not authenticated" });
                 return;
             }
-            const cart= await cartserv.getOrCreateCart(user)
-            const product = req.body.product_id
-            const quantity = req.body.quantity || 1
-            if (!product) {
+            const product_id = req.body.product_id
+            const quantity = parseInt(req.body.quantity, 10) || 1;
+            if (!product_id) {
                 res.status(400).json({ message: "Product ID is required" });
                 return;
             }
@@ -70,8 +68,8 @@ export class CartController {
                 res.status(400).json({ message: "Quantity must be greater than zero" });
                 return;
             }
-            await cartserv.removeProduct(cart, product, quantity); 
-            res.status(200).json({"messsage":"Product Removed", cart: cart});
+            const updatedCart = await cartserv.removeProduct(user._id, product_id, quantity); 
+            res.status(200).json({"messsage":"Product Removed", cart: updatedCart});
          
 
         } catch (error) {
@@ -87,7 +85,7 @@ export class CartController {
                 res.status(400).json({ message: "User is not authenticated" });
                 return;
             }
-            const cart = await cartserv.getOrCreateCart(user);
+            const cart = await cartserv.getOrCreateCart(user._id);
             res.status(200).json(cart);
 
         } catch (error) {
@@ -95,5 +93,6 @@ export class CartController {
             res.status(500).json({ message: error.message });
         }
     }
+    
     
 }

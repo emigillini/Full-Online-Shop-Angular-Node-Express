@@ -9,7 +9,7 @@ export type Delivery = "Pending" | "Transit" | "Complete"
 
 
 export interface IUser extends Document {
-    id?: string;
+    _id?: Types.ObjectId;
     username: string;
     email: string; 
     password: string,
@@ -20,22 +20,24 @@ export interface IUser extends Document {
     address?:string
 }
 export interface IConversation extends Document {
+    _id?: Types.ObjectId;
     name: string,
     user: IUser,
-    created_at: date,
-    closed_at?: date,
+    created_at: Date,
+    closed_at?: Date,
     open: boolean
 }
 export interface IMessage extends Document {
+    _id?: Types.ObjectId;
     conversation: IConversation,
     sender:IUser,
     content: string,
-    created_at: date
+    created_at: Date
 }
 
 
 export interface IProduct extends Document {
-    id?: string;
+    _id?: Types.ObjectId;
     model: Model;
     brand: Brand;
     color: Color,
@@ -47,37 +49,38 @@ export interface IProduct extends Document {
 }
 
 export interface ICartProduct extends Document {
-    id?: string;
+    _id?: Types.ObjectId;
     product: Types.ObjectId;
     quantity: number;
+    
 }
 
 export interface ICart extends Document {
-    user:IUser,
-    date:date
+    user:Types.ObjectId,
+    date:Date
     products:ICartProduct[]
 
 }
 
 export interface IPurchase extends Document {
-    id?: string;
+    _id?: Types.ObjectId;
     invoice_number:string,
-    date:date,
-    user:IUser,
+    date:Date,
+    user:Types.ObjectId,
     total:number,
     Payment_Type:Payment,
-    products: ICartProduct[];
+    cart: Types.ObjectId;
 
 }
 
 
 export interface IDelivery extends Document {
-    id?: string;
+    _id?: Types.ObjectId;
     purchase:IPurchase;
     tracking_number :string;
     delivery_address: string;
-    estimated_date :date;
-    delivery_date : date;
+    estimated_date :Date;
+    delivery_date : Date;
     delivery_status : Delivery;
 }
 
