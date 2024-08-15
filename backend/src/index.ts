@@ -8,6 +8,7 @@ import cartRoutes from './routes/cart.routes';
 import purchaseRoutes from './routes/purchase.routes';
 import deliveryRoutes from './routes/delivery.routes';
 import mailRoutes from './routes/mail.routes';
+import passwordRoutes from './routes/password.routes';
 import passport from './config/passport';
 
 const app = express();
@@ -21,6 +22,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/purchase', purchaseRoutes);
 app.use('/api/deliveries', deliveryRoutes);
 app.use('/api/send_mail', mailRoutes);
+app.use('/api/password', passwordRoutes);
 const PORT:string = process.env.PORT
 
 
