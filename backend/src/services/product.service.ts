@@ -15,9 +15,9 @@ export class ProductService {
         }
     }
 
-    async getProducts(): Promise<IProduct[]> {
+    async getProducts(filters: any = {}): Promise<IProduct[]> {
         try {   
-            const products = await prodman.getProducts();
+            const products = await prodman.getProducts(filters);
             return products
         } catch (error) {
             console.error("Error in ProductService getProducts:", error);

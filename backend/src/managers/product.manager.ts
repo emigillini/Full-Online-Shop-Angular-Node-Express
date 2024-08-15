@@ -13,9 +13,9 @@ export class ProductManager {
         }
     }
 
-    async getProducts(): Promise<IProduct[] | null> {
+    async getProducts(filters: any = {}): Promise<IProduct[] | null> {
         try {
-            const products = await ProductModel.find();
+            const products = await ProductModel.find(filters).exec();
             return products;
         } catch (error) {
             console.error("Error fetching products:", error);

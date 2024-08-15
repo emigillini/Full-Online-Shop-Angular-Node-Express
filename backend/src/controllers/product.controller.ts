@@ -35,7 +35,8 @@ export class ProductController {
 
     async getAllProducts(req: Request, res: Response): Promise<void> {
         try {
-            const products = await prodserv.getProducts();
+            const filters = req.filter || {}; 
+            const products = await prodserv.getProducts(filters);
             res.status(200).json(products);
         } catch (error) {
             console.error("Error in ProductController getAllProducts:", error);
