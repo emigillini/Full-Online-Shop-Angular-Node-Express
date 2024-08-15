@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-export function filterMiddleware(req: Request, res: Response, next: NextFunction): void {
+export const filterMiddleware = (req: Request, res: Response, next: NextFunction): void =>{
     const filters: any = {};
     const { brand, has_stock, min_price, max_price } = req.query;
 

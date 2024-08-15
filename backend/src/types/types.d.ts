@@ -83,4 +83,10 @@ export interface IDelivery extends Document {
     delivery_date : Date;
     delivery_status : Delivery;
 }
+export interface MailOptions {
+    to: string;
+    subject: string;
+    text?: string;
+    html?: string;
+}
 
