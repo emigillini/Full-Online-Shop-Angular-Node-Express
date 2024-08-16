@@ -22,15 +22,15 @@ export interface IUser extends Document {
 export interface IConversation extends Document {
     _id?: Types.ObjectId;
     name: string,
-    user: IUser,
+    user: Types.ObjectId;
     created_at: Date,
     closed_at?: Date,
     open: boolean
 }
 export interface IMessage extends Document {
     _id?: Types.ObjectId;
-    conversation: IConversation,
-    sender:IUser,
+    conversation: Types.ObjectId;
+    sender:Types.ObjectId;
     content: string,
     created_at: Date
 }

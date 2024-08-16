@@ -1,4 +1,4 @@
-import { ICart, ICartProduct, IProduct, IUser } from "../types/types";
+import { ICart, ICartProduct} from "../types/types";
 import { CartModel } from "../DAO/models/cart_model"; 
 import { ProductModel } from "../DAO/models/product_model";
 import { Types } from "mongoose";

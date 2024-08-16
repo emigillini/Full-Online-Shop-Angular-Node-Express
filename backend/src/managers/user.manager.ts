@@ -30,7 +30,7 @@ export class UserManager {
       if (!isMatch) {
         throw new Error('Invalid password');
       }
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: '2h' });
 
       return { user, token };
     } catch (error) {
