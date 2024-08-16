@@ -1,19 +1,25 @@
 import { PurchaseModel } from "../DAO/models/purchase_model";
-import { ICart, IPurchase,IDelivery } from "../types/types";
+import { IPurchase,IDelivery } from "../types/types";
 import { Types } from "mongoose";
 import { CartModel } from "../DAO/models/cart_model";
 import { ProductModel } from "../DAO/models/product_model";
 import { StripeService } from "../services/stripe.service";
 import { DeliveryService } from "../services/delivery.service";
+import { calculateTotalPrice } from "../utils/utils";
+import { CartService } from "../services/cart.service";
 
 
+const cartservice = new CartService()
 
 export class PurchaseManager {
     async create_purchase(userId:Types.ObjectId,  paymentType:string): Promise<{ purchase: IPurchase; delivery: IDelivery }> {
         try {
-            const cart = await CartModel.findOne({ user: userId }).populate('products.product').exec();
+            const cart = await CartModel.findOne({ user: userId }).sort({ createdAt: -1 }).populate('products.product').exec();
             if (!cart) {
                 throw new Error("Cart not found");
+            }
+            if(cart.products.length===0){
+                throw new Error("No products in Cart");
             }
 
             for (const item of cart.products) { 
@@ -29,12 +35,15 @@ export class PurchaseManager {
             
 
             
-            const totalPrice = this.calculateTotalPrice(cart);
+            const totalPrice = calculateTotalPrice(cart);
             if (paymentType === 'Stripe') {
                 const paymentMethodId= "pm_card_visa"
-                const amountInCents = totalPrice * 100; // Stripe expects the amount in cents
+                const amountInCents = totalPrice * 100; 
                 const paymentIntent = await StripeService.createPaymentIntent(amountInCents);
                 const confirmedIntent = await StripeService.confirmPaymentIntent(paymentIntent.id, paymentMethodId);
+                if (confirmedIntent.status !== 'succeeded') {
+                    throw new Error('Payment failed: ' + confirmedIntent.status);
+                }
                
             } else if (paymentType === 'Cash') {
               
@@ -42,7 +51,7 @@ export class PurchaseManager {
                 throw new Error("Unsupported payment method");
             }
 
-            const newPurchase = new PurchaseModel({
+            const newPurchase = await PurchaseModel.create({
                 user: userId,
                 Payment_Type: paymentType,
                 cart: cart._id,
@@ -50,7 +59,7 @@ export class PurchaseManager {
             });
 
             
-            await newPurchase.save();
+        
             const delivery = await DeliveryService.create_delivery(userId, newPurchase._id)
             
             const populatedPurchase = await PurchaseModel.findById(newPurchase._id)
@@ -63,7 +72,7 @@ export class PurchaseManager {
                 }
             }) 
             .exec();
-            await CartModel.findOneAndDelete({ user: userId });
+            await cartservice.createCart(userId);
             return { purchase: populatedPurchase, delivery: delivery };;
 
         } catch (error) {
@@ -91,13 +100,6 @@ export class PurchaseManager {
             throw new Error("Failed to fetch user purchases");
         }
     }
-    private calculateTotalPrice(cart: ICart): number {
-        return cart.products.reduce((sum: number, item:any) => {
-           
-            const price = item.product.price || 0;
-            return sum + item.quantity * price;
-        }, 0);
-    }
 
     async get_purchases(): Promise<IPurchase[]> {
         try {
@@ -120,7 +122,7 @@ export class PurchaseManager {
         }
     }
 
-    
+   
  
     
 }

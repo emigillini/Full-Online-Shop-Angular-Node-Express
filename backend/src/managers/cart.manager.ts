@@ -93,6 +93,7 @@ export class CartManager {
     async getCartByUser(userId: Types.ObjectId): Promise<ICart | null> {
         try {
            const cart = await CartModel.findOne({ user: userId }) 
+           .sort({ createdAt: -1 })
            .populate('products.product')
            .populate("user")
                 .exec();

@@ -10,7 +10,7 @@ const CartsSchema:Schema = new mongoose.Schema<ICart>({
         product: { type: Schema.Types.ObjectId, ref: 'products', required: true },
         quantity: { type: Number, required: true }
     }]
-});
+}, { timestamps: true })
 
 CartsSchema.set('toObject', { virtuals: true });
 CartsSchema.set('toJSON', { virtuals: true });

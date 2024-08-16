@@ -7,9 +7,9 @@ const deliveryman= new DeliveryManager()
 
 export class DeliveryService {
  
-    static async create_delivery(userId:Types.ObjectId, purchaseid:Types.ObjectId): Promise<IDelivery> {
+    static async create_delivery(userId:Types.ObjectId, purchaseId:Types.ObjectId): Promise<IDelivery> {
         try {
-          const delivery= await deliveryman.create_delivery( userId, purchaseid)
+          const delivery= await deliveryman.create_delivery( userId, purchaseId)
           return delivery
         } catch (error) {
             console.error("Error in DeliveryService create_delivery:", error);

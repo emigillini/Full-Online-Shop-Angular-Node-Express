@@ -23,7 +23,6 @@ export class DeliveryManager {
             const populatedDelivery= await DeliveryModel.findById(newDelivery._id)
             .populate("purchase")
             .exec();
-            console.log(populatedDelivery)
             return populatedDelivery ;
 
         } catch (error) {
@@ -49,7 +48,7 @@ export class DeliveryManager {
     }
     async changeStatus(delivery_id:Types.ObjectId, delivery_status:Partial<IDelivery>): Promise<IDelivery> {
         try {
-            const newDelivery:IDelivery = await DeliveryModel.findByIdAndUpdate(delivery_id, { delivery_status: delivery_status }, {
+            const newDelivery = await DeliveryModel.findByIdAndUpdate(delivery_id, { delivery_status: delivery_status }, {
                 new:true, 
                 runValidators:true})
             return newDelivery;

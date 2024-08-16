@@ -23,7 +23,7 @@ export class PurchaseController {
              
 
             if ( !paymentType) {
-                res.status(400).json({ message: "Cart ID and payment type are required" });
+                res.status(400).json({ message: "Payment type are required" });
                 return;
             }
             const validPayment: Payment[] = ["Stripe", "Cash"];
