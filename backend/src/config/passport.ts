@@ -23,7 +23,7 @@ passport.use(new JwtStrategy({...options, jwtFromRequest}, async (jwtPayload, do
     try {
         const user = await UserModel.findById(jwtPayload.id).exec();
         if (user) {
-            return done(null, user);
+            return done(null, { ...user.toObject(), is_Admin: user.is_admin });
         } else {
             return done(null, false);
         }
