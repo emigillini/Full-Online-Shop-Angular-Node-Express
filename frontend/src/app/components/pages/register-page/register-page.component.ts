@@ -105,33 +105,49 @@ export class RegisterPageComponent {
         adress: this.form.value.adress,
       };
 
-      const emailData: EmailData = {
-        subject: EMAIL_RESPONSES.CONFIRMATION_REGISTER_SUBJECT,
-        message: EMAIL_RESPONSES.CONFIRMATION_REGISTER_MESSAGE,
-        to_email: this.form.value.email,
-      };
-
-      this.emailService.sendEmail(emailData).subscribe({
-        next: () => console.log('Order confirmation email sent'),
-        error: (error) => console.error('Error sending email:', error),
-      });
       this.authService.register(newUser).subscribe({
         next: (res) => {
-          if (res.user) {
-            Swal.fire({
-              title: 'User registered',
-              text: 'Please Log in',
-              color: '#ffffff',
-              imageUrl:
-                'https://img.freepik.com/foto-gratis/ilustracion-calzado-deportivo-sobre-fondo-azul-generado-ia_188544-19603.jpg?w=1380&t=st=1720619846~exp=1720620446~hmac=c3c9abe9bd869c4c34ba10f563ad4725250fe2a24c598df070a98b49adff834d',
-              imageWidth: 300,
-              imageHeight: 150,
-              imageAlt: 'Custom image',
-              background: '#000',
-              showConfirmButton: true,
-              confirmButtonColor: '#000',
+          if (res) {
+            // Enviar el correo solo si el registro fue exitoso
+            const emailData: EmailData = {
+              subject: EMAIL_RESPONSES.CONFIRMATION_REGISTER_SUBJECT,
+              message: EMAIL_RESPONSES.CONFIRMATION_REGISTER_MESSAGE,
+              toEmail: this.form.value.email,
+            };
+  
+            this.emailService.sendEmail(emailData).subscribe({
+              next: () => {
+                Swal.fire({
+                  title: 'User registered',
+                  text: 'Please Log in',
+                  color: '#ffffff',
+                  imageUrl: 'https://img.freepik.com/foto-gratis/ilustracion-calzado-deportivo-sobre-fondo-azul-generado-ia_188544-19603.jpg?w=1380&t=st=1720619846~exp=1720620446~hmac=c3c9abe9bd869c4c34ba10f563ad4725250fe2a24c598df070a98b49adff834d',
+                  imageWidth: 300,
+                  imageHeight: 150,
+                  imageAlt: 'Custom image',
+                  background: '#000',
+                  showConfirmButton: true,
+                  confirmButtonColor: '#000',
+                }).then(() => {
+                  this.router.navigate(['/login']);
+                });
+              },
+              error: (error) => {
+                console.error('Error sending email:', error);
+                Swal.fire({
+                  title: 'Error sending email',
+                  text: 'Please try again',
+                  color: '#ffffff',
+                  imageUrl: 'https://img.freepik.com/foto-gratis/ilustracion-calzado-deportivo-sobre-fondo-azul-generado-ia_188544-19603.jpg?w=1380&t=st=1720619846~exp=1720620446~hmac=c3c9abe9bd869c4c34ba10f563ad4725250fe2a24c598df070a98b49adff834d',
+                  imageWidth: 300,
+                  imageHeight: 150,
+                  imageAlt: 'Custom image',
+                  background: '#000',
+                  showConfirmButton: true,
+                  confirmButtonColor: '#000',
+                });
+              },
             });
-            this.router.navigate(['/login']);
           }
         },
         error: (error) => {
@@ -139,8 +155,7 @@ export class RegisterPageComponent {
             title: 'Error registering user',
             text: 'Please try again',
             color: '#ffffff',
-            imageUrl:
-              'https://img.freepik.com/foto-gratis/ilustracion-calzado-deportivo-sobre-fondo-azul-generado-ia_188544-19603.jpg?w=1380&t=st=1720619846~exp=1720620446~hmac=c3c9abe9bd869c4c34ba10f563ad4725250fe2a24c598df070a98b49adff834d',
+            imageUrl: 'https://img.freepik.com/foto-gratis/ilustracion-calzado-deportivo-sobre-fondo-azul-generado-ia_188544-19603.jpg?w=1380&t=st=1720619846~exp=1720620446~hmac=c3c9abe9bd869c4c34ba10f563ad4725250fe2a24c598df070a98b49adff834d',
             imageWidth: 300,
             imageHeight: 150,
             imageAlt: 'Custom image',
@@ -154,5 +169,4 @@ export class RegisterPageComponent {
     } else {
       this.form.markAllAsTouched();
     }
-  }
-}
+  }}

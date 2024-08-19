@@ -51,7 +51,7 @@ export class ContactPageComponent implements OnInit {
     const emailData: EmailData = {
       subject: this.subject,
       message: this.message,
-      to_email: this.toEmail,
+      toEmail: this.toEmail,
     };
 
     this.emailService.sendEmail(emailData).subscribe({

@@ -14,9 +14,9 @@ export class PasswordManager {
         }
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
-        const resetLink = `http://localhost:3000/reset-password?uid=${user._id}&token=${token}`;//front end component/
+        const resetLink = `http://localhost:4200/reset-password/${user._id}/${token}`;
         const message = `<div>
-          <p>Click the link below to reset your password:</p>
+          <p>Click the link below to reset your password:</p> 
           <p><a href="${resetLink}">${resetLink}</a></p>
         </div>`;
         await EmailService.sendEmail('Password Reset Request', message, email);

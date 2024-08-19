@@ -89,7 +89,7 @@ export interface User {
   phone?: string;
   identification_number?: number;
   password?: string;
-  is_staff: boolean;
+  is_admin: boolean;
   adress?: string;
 }
 export interface UserLogin {
@@ -106,7 +106,7 @@ export interface UserRegistrationResponse {
 export interface LoginResponse {
   user: User;
   token: string;
-  is_staff: boolean;
+  is_admin: boolean;
   expires_in: number;
 }
 
@@ -177,7 +177,7 @@ export interface PaymentTypes {
 export interface EmailData {
   subject: string;
   message: string;
-  to_email: string;
+  toEmail: string;
 }
 export interface EmailResponse {
   status: 'success' | 'error';

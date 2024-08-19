@@ -20,7 +20,6 @@ export class authInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     if (this.authService.checkIsLogged()) {
       const token = this.authService.cookies.get('token');
-      console.log(token);
       if (token) {
         request = request.clone({
           setHeaders: {

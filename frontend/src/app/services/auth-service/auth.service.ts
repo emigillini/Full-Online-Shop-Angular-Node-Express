@@ -55,19 +55,15 @@ export class AuthService {
     return !!this.cookies.get('isAdmin');
   }
 
-  public getTokenExpirationDate(expiresIn: number): Date {
-    const now = new Date();
-    return new Date(now.getTime() + expiresIn * 1000);
-  }
 
   public login(user: UserLogin): Observable<LoginResponse> {
     this.loaderService.show();
-    return this.http.post<LoginResponse>(`login/`, user).pipe(
+    return this.http.post<LoginResponse>(`users/login/`, user).pipe(
       tap((response) => {
         const userEmail = response.user.email!;
         const expiresIn = response.expires_in;
         const token = response.token;
-        const is_staff = response.is_staff;
+        const is_staff = response.user.is_admin;
         this.createSession(userEmail, expiresIn, token, is_staff);
         
       }),
@@ -82,7 +78,7 @@ export class AuthService {
   public register(user: NewUser): Observable<UserRegistrationResponse> {
     this.loaderService.show();
     return this.http
-      .post<UserRegistrationResponse>(`register/`, user)
+      .post<UserRegistrationResponse>(`users/register/`, user)
       .pipe(
         catchError((error) => {
           this.loaderService.hide();
@@ -96,7 +92,7 @@ export class AuthService {
   public logout(): Observable<LogoutResponse> {
     this.loaderService.show();
 
-    return this.http.post<LogoutResponse>( 'logout/', {}).pipe(
+    return this.http.post<LogoutResponse>( 'users/logout/', {}).pipe(
       tap(() => {
         this.isLogged.next(false);
         this.isAdmin.next(false);
@@ -118,12 +114,12 @@ export class AuthService {
     token: string,
     is_staff: boolean
   ): void {
-    const expirationDate = this.getTokenExpirationDate(expiresIn).toISOString();
+    const expirationDate = new Date().getTime() + expiresIn * 1000;
     this.userEmail.next(userEmail);
     this.isLogged.next(true);
     this.cookies.set('userEmail', userEmail);
     this.cookies.set('token', token);
-    this.cookies.set('expiresIn', expirationDate);
+    this.cookies.set('expiresIn', expirationDate.toString());
     console.log(is_staff);
     if (is_staff) {
       this.isAdmin.next(is_staff);
@@ -136,8 +132,8 @@ export class AuthService {
     const body: PasswordResetRequest = { email };
     return this.http
       .post<PasswordResetRequestResponse>(
-        `reset-password-request/`,
-        body
+        `password/reset-password-request/`,
+        body 
       )
       .pipe(
         catchError((error) => {
@@ -159,7 +155,7 @@ export class AuthService {
     };
     return this.http
       .post<PasswordResetConfirmResponse>(
-        `reset-password/${uid}/${token}/`,
+        `password/reset-password/${uid}/${token}/`,
         body
       )
       .pipe(

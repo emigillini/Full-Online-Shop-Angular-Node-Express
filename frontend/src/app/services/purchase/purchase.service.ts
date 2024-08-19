@@ -58,7 +58,7 @@ export class PurchaseService {
                         ${EMAIL_RESPONSES.CONFIRMATION_PURCHASE_MESSAGE}
                         Delivery Tracking Number: ${response.delivery.tracking_number}
                     `,
-              to_email: this.userEmail,
+              toEmail: this.userEmail,
             };
             this.emailService.sendEmail(emailData).subscribe({
               next: () => console.log('Order confirmation email sent'),
