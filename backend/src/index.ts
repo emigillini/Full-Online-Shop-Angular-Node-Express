@@ -12,12 +12,14 @@ import passwordRoutes from './routes/password.routes';
 import conversationRoutes from './routes/conversations.routes';
 import messageRoutes from './routes/message.routes';
 import passport from './config/passport';
+import cors from 'cors';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 app.use(passport.initialize());
+app.use(cors());
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/cart', cartRoutes);
@@ -43,6 +45,12 @@ const connectDB = async () => {
 };
 
 connectDB();
+
+app.use(cors({
+  origin: 'http://localhost:4200', // El origen de tu frontend
+  optionsSuccessStatus: 200 // Para navegadores que requieren un estatus 200
+}));
+
 
 app.listen(PORT, () => {
   console.log(`server is running on port  ${PORT}`);
