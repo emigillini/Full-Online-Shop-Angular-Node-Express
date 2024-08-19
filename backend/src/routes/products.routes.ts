@@ -14,5 +14,6 @@ productRoutes.patch('/:id', passport.authenticate('jwt', { session: false }),adm
 productRoutes.get('/:id', prodCont.getProductByIds);
 productRoutes.post('/', passport.authenticate('jwt', { session: false }),adminOnly, prodCont.addProduct);
 productRoutes.get('/',filterMiddleware, prodCont.getAllProducts);
+productRoutes.get('/brand/:brandName', prodCont.getProductsByBrandName);
 
 export default productRoutes;

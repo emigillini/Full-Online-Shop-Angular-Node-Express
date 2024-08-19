@@ -11,6 +11,7 @@ import mailRoutes from './routes/mail.routes';
 import passwordRoutes from './routes/password.routes';
 import conversationRoutes from './routes/conversations.routes';
 import messageRoutes from './routes/message.routes';
+import brandRoutes from './routes/brand.routes';
 import passport from './config/passport';
 import cors from 'cors';
 
@@ -19,7 +20,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 app.use(passport.initialize());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:4200',
+  optionsSuccessStatus: 200 
+}));
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/cart', cartRoutes);
@@ -29,6 +33,7 @@ app.use('/api/send_mail', mailRoutes);
 app.use('/api/password', passwordRoutes);
 app.use('/api/conversation', conversationRoutes);
 app.use('/api/message', messageRoutes);
+app.use('/api/brand', brandRoutes);
 const PORT:string = process.env.PORT
 
 
@@ -46,10 +51,7 @@ const connectDB = async () => {
 
 connectDB();
 
-app.use(cors({
-  origin: 'http://localhost:4200', // El origen de tu frontend
-  optionsSuccessStatus: 200 // Para navegadores que requieren un estatus 200
-}));
+
 
 
 app.listen(PORT, () => {

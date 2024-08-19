@@ -46,14 +46,14 @@ export class ProductDetailComponent implements OnInit {
 
     console.log('Product ID:', productId);
     if (productId) {
-      this.productService.getProductById(Number(productId)).subscribe({
+      this.productService.getProductById(productId).subscribe({
         next: (prod) => (this.product = prod),
         error: (error) => {
           console.error('Error retrieving the product:', error);
         },
       });
       this.productService
-        .getRandomProductExcluding(Number(productId))
+        .getRandomProductExcluding(productId)
         .subscribe({
           next: (prod) => (this.other = prod),
           error: (error) => {

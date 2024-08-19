@@ -5,19 +5,19 @@ const ProductsCollection = "products";
 
 const ProductSchema: Schema = new Schema<IProduct>({
     model: { 
-        type: Number, 
-        required: true,
-        enum: [2024, 2023, 2022, 2000],
-    },
-    brand: { 
         type: String, 
         required: true,
-        enum: ["nike", "adidas", "puma", "reebok"],
+        enum: ["Model A", "Model B", "Model C", "Model D","Model E"],
+    },
+    brand: { 
+        type: Schema.Types.ObjectId, 
+        ref: 'brands', 
+        required: true,
     },
     color: { 
         type: String, 
         required: true,
-        enum: ["red", "blue", "white", "black"], 
+        enum: ["Red", "Blue", "White", "Black"], 
     },
     size: { 
         type: Number, 

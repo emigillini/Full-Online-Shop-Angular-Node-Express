@@ -1,3 +1,4 @@
+import { BrandModel } from "../DAO/models/brand_model";
 import { ProductModel } from "../DAO/models/product_model";
 import { IProduct } from "../types/types";
 import { Types } from "mongoose";
@@ -15,7 +16,7 @@ export class ProductManager {
 
     async getProducts(filters: any = {}): Promise<IProduct[] | null> {
         try {
-            const products = await ProductModel.find(filters).exec();
+            const products = await ProductModel.find(filters).populate('brand').exec();
             return products;
         } catch (error) {
             console.error("Error fetching products:", error);
@@ -25,7 +26,7 @@ export class ProductManager {
 
     async getProductById(id: string): Promise<IProduct | null> {
         try {
-            const product = await ProductModel.findById(id);
+            const product = await ProductModel.findById(id).populate('brand').exec();
             return product;
         } catch (error) {
             console.error("Error fetchingg product by ID:", error);
@@ -55,11 +56,29 @@ export class ProductManager {
             
             const newProduct:IProduct = await ProductModel.findByIdAndUpdate(id, updateData,{
                 new:true, 
-                runValidators:true})
+                runValidators:true}).populate('brand').exec()
             return newProduct;
         } catch (error) {
             console.error("Error updating product :", error);
             throw new Error("Failed updating product");
+        }
+    }
+    async getProductsByBrandName(brandName: string): Promise<IProduct[]> {
+        try {
+            console.log(`Searching for brand: ${brandName}`);
+            const brand = await BrandModel.findOne({ description: brandName }).exec();
+            console.log(brand)
+            if (!brand) {
+                
+                throw new Error("Brand not found");
+            }
+
+            console.log(`Searching for products with brand ID: ${brand._id}`);
+            const products = await ProductModel.find({ brand: brand._id }).populate('brand').exec();
+            return products;
+        } catch (error) {
+            console.error("Error in ProductManager getProductsByBrandName:", error);
+            throw new Error(`Error fetching products by brand name: ${error.message}`);
         }
     }
 

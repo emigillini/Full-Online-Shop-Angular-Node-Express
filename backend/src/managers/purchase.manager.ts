@@ -8,7 +8,7 @@ import { DeliveryService } from "../services/delivery.service";
 import { calculateTotalPrice } from "../utils/utils";
 import { CartService } from "../services/cart.service";
 
-
+    
 const cartservice = new CartService()
 
 export class PurchaseManager {

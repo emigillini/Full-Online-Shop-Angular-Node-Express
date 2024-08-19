@@ -52,4 +52,12 @@ export class ProductService {
             throw new Error(`Error updating product: ${error.message}`);
         }
     }
+    async getProductsByBrandName(brandName: string) {
+        try {
+            return await prodman.getProductsByBrandName(brandName);
+        } catch (error) {
+            console.error("Error in ProductService getProductsByBrandName:", error);
+            throw new Error(`Error fetching products by brand name: ${error.message}`);
+        }
+    }
 }

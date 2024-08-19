@@ -1,8 +1,6 @@
 import { Document, Types } from 'mongoose';
-
-export type Color = "red" | "blue" | "white" | "black"
-export type Brand = "nike" | "adidas" | "puma" |"reebok"
-export type Model = 2024 | 2023|2022|2000
+export type Color = "Red" | "Blue" | "White" | "Black"
+export type Model = "Model A"| "Model B"|"Model C"|"Model D"|"Model E"
 export type Size = 5 | 6 | 7 | 8
 export type Payment = "Cash" | "Stripe" 
 export type Delivery = "Pending" | "Transit" | "Complete" 
@@ -39,13 +37,18 @@ export interface IMessage extends Document {
 export interface IProduct extends Document {
     _id?: Types.ObjectId;
     model: Model;
-    brand: Brand;
+    brand: Types.ObjectId;
     color: Color,
     size:Size;
     price: number, 
     stock: number, 
     image : string,
     detail : string,
+}
+export interface IBrand extends Document {
+    _id?: Types.ObjectId;
+    description: string
+
 }
 
 export interface ICartProduct extends Document {
@@ -54,6 +57,7 @@ export interface ICartProduct extends Document {
     quantity: number;
     
 }
+
 
 export interface ICart extends Document {
     user:Types.ObjectId,

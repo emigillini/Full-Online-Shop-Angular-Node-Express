@@ -43,7 +43,7 @@ export class ProductService {
     );
   }
 
-  public getProductById(id: number): Observable<Product> {
+  public getProductById(id: string): Observable<Product> {
     this.loaderService.show();
     return this.http.get<Product>(`products/${id}/`).pipe(
       catchError((error) => {
@@ -57,7 +57,7 @@ export class ProductService {
     );
   }
   public getRandomProductExcluding(
-    currentProductId?: number
+    currentProductId?: string
   ): Observable<Product> {
     let params = new HttpParams();
 
