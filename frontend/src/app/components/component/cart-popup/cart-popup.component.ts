@@ -16,6 +16,7 @@ export class CartPopupComponent implements OnInit {
 
   constructor(private cartService: CartService) {}
   ngOnInit(): void {
+    this.cartService.loadInitialCart()
     this.cartService.cartSubject$.subscribe({
       next: (cartobj) => {
         this.cart = cartobj;

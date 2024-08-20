@@ -46,7 +46,9 @@ export interface Cart {
   user: User;
   products: IProduct[];
   date: string;
-  user: number;
+  createdAt: string,
+  updatedAt: string
+
 }
 
 export interface IProduct {

@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.authService.isLogged$.subscribe(isLogged => {
       if (isLogged) {
-        this.cartService.loadInitialCart();
+        //this.cartService.loadInitialCart();
       }
     });
     window.addEventListener('storage', (event) => {
