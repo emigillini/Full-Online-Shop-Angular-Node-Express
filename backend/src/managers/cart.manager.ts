@@ -95,13 +95,12 @@ export class CartManager {
            const cart = await CartModel.findOne({ user: userId }) 
            .sort({ createdAt: -1 })
            .populate("user")
-           .populate({
-            path: 'products.product',
-            populate: {
-                path: 'brand', 
-                model: 'brands'
-            }
-        }).exec()
+
+        
+
+           
+                .exec();
+
             return cart
         } catch (error) {
             console.error("Error in CartManager getCartByUser:", error);
