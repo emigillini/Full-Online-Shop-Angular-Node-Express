@@ -43,17 +43,17 @@ export interface Product {
 
 export interface Cart {
   id: number;
-  user_email: string;
-  items: Item[];
+  user: User;
+  products: IProduct[];
   date: string;
   user: number;
 }
 
-export interface Item {
+export interface IProduct {
   id: number;
   quantity: number;
   product: Product;
-  cart: Cart;
+  
 }
 export interface NewItem {
   product_id: number;
@@ -66,11 +66,13 @@ export interface AddProductResponse {
 }
 
 export interface RemoveItemRequest {
-  item_id: number;
+  product_id: number;
+  quantity?: number;
 }
 
 export interface RemoveItemResponse {
   message: string;
+  cart: Cart;
 }
 
 export interface NewUser {

@@ -2,7 +2,7 @@ import { Document, Types } from 'mongoose';
 export type Color = "Red" | "Blue" | "White" | "Black"
 export type Model = "Model A"| "Model B"|"Model C"|"Model D"|"Model E"
 export type Size = 5 | 6 | 7 | 8
-export type Payment = "Cash" | "Stripe" 
+
 export type Delivery = "Pending" | "Transit" | "Complete" 
 
 
@@ -51,6 +51,12 @@ export interface IBrand extends Document {
 
 }
 
+export interface IPaymentType extends Document {
+    _id?: Types.ObjectId;
+    description: string
+
+}
+
 export interface ICartProduct extends Document {
     _id?: Types.ObjectId;
     product: Types.ObjectId;
@@ -72,7 +78,7 @@ export interface IPurchase extends Document {
     date:Date,
     user:Types.ObjectId,
     total:number,
-    Payment_Type:Payment,
+    paymentType:Types.ObjectId;
     cart: Types.ObjectId;
 
 }

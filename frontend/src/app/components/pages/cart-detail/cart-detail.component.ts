@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../../services/cart/cart.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
-import {
-  Cart,
-  PurchaseConfirmationResponse,
-  PaymentTypes,
-} from '../../../types/types';
+import { Cart, PurchaseConfirmationResponse, PaymentTypes } from '../../../types/types';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PurchaseComponent } from '../../component/purchase/purchase.component';
 import { Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';
@@ -35,8 +30,7 @@ export class CartDetailComponent implements OnInit {
   elements: StripeElements | null = null;
   cardElement: StripeCardElement | null = null;
   PaymentMethodTypes: PaymentTypes[] = [];
-  Payment_method_id!: number;
-  PaymentMode!: string;
+  PaymentMode: string = ''; // This is used as description
   PaymentSelected: PaymentTypes | null = null;
 
   constructor(
@@ -77,18 +71,16 @@ export class CartDetailComponent implements OnInit {
 
   updatePaymentMethod() {
     if (this.PaymentSelected) {
-      this.Payment_method_id = this.PaymentSelected.id;
       this.PaymentMode = this.PaymentSelected.description;
     } else {
-      this.Payment_method_id = 0;
       this.PaymentMode = 'no anda';
     }
     console.log('Selected Payment Method:', this.PaymentSelected);
     console.log('Payment Mode:', this.PaymentMode);
-    console.log('Payment Method ID:', this.Payment_method_id);
   }
-  deleteItem(item_id: number): void {
-    if (item_id) {
+
+  deleteItem(product_id: number): void {
+    if (product_id) {
       Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -104,7 +96,7 @@ export class CartDetailComponent implements OnInit {
         cancelButtonText: 'No, cancel!',
       }).then((result) => {
         if (result.isConfirmed) {
-          this.cartService.deleteItem(item_id).subscribe({
+          this.cartService.deleteItem(product_id).subscribe({
             next: (res) => {
               Swal.fire({
                 title: 'Item Deleted',
@@ -121,7 +113,7 @@ export class CartDetailComponent implements OnInit {
             error: (error) => {
               console.error('Error deleting product: ', error);
               Swal.fire({
-                title: 'Product Added',
+                title: 'Error deleting product',
                 text: 'Error deleting product ',
                 color: '#ffffff',
                 width: 300,
@@ -160,7 +152,7 @@ export class CartDetailComponent implements OnInit {
             return;
           }
 
-          this.processPurchase(this.Payment_method_id);
+          this.processPurchase(this.PaymentMode);
         },
         error: (error) => {
           console.error('Error creating payment method:', error);
@@ -176,7 +168,7 @@ export class CartDetailComponent implements OnInit {
         },
       });
     } else if (this.PaymentMode === 'Cash') {
-      this.processPurchase(this.Payment_method_id);
+      this.processPurchase(this.PaymentMode);
     } else {
       Swal.fire({
         title: 'Payment method not supported.',
@@ -190,9 +182,9 @@ export class CartDetailComponent implements OnInit {
     }
   }
 
-  private processPurchase(paymentMethodId: number): void {
+  private processPurchase(paymentMode: string): void {
     this.purchaseService
-      .confirmPurchase(paymentMethodId)
+      .confirmPurchase(paymentMode) // Pass the payment mode as description
       .pipe(
         tap((response) => {
           console.log('Purchase completed:', response);

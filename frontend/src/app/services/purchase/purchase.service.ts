@@ -39,13 +39,13 @@ export class PurchaseService {
   }
 
   public confirmPurchase(
-    Payment_method_id: number
+    paymentType: string
   ): Observable<PurchaseConfirmationResponse> {
     this.loaderService.show();
     return this.http
       .post<PurchaseConfirmationResponse>(
         'purchase/confirm_purchase/',
-        { Payment_method_id }
+        { paymentType }
       )
       .pipe(
         tap((response) => {
@@ -80,11 +80,11 @@ export class PurchaseService {
   }
 
   public getPaymentMethodTypes(): Observable<PaymentTypes[]> {
-    return this.http.get<PaymentTypes[]>('payment-mode/').pipe(
+    return this.http.get<PaymentTypes[]>('payment/').pipe(
       catchError((error) => {
         console.error('Error occurred while fetching purchases:', error);
         throw error;
-      })
+      }) 
     );
   }
 

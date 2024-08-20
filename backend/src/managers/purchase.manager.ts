@@ -7,6 +7,8 @@ import { StripeService } from "../services/stripe.service";
 import { DeliveryService } from "../services/delivery.service";
 import { calculateTotalPrice } from "../utils/utils";
 import { CartService } from "../services/cart.service";
+import { PaymentModel } from "../DAO/models/payment_model";
+
 
     
 const cartservice = new CartService()
@@ -14,6 +16,13 @@ const cartservice = new CartService()
 export class PurchaseManager {
     async create_purchase(userId:Types.ObjectId,  paymentType:string): Promise<{ purchase: IPurchase; delivery: IDelivery }> {
         try {
+            const paymentModeType = await PaymentModel.findOne({ description: paymentType }).exec();
+            console.log(paymentModeType)
+            if (!paymentModeType) {
+                throw new Error("Payment type not found");
+            }
+            const paymentTypeId = paymentModeType._id;
+            console.log(paymentTypeId)
             const cart = await CartModel.findOne({ user: userId }).sort({ createdAt: -1 }).populate('products.product').exec();
             if (!cart) {
                 throw new Error("Cart not found");
@@ -53,7 +62,7 @@ export class PurchaseManager {
 
             const newPurchase = await PurchaseModel.create({
                 user: userId,
-                Payment_Type: paymentType,
+                paymentType: paymentTypeId,
                 cart: cart._id,
                 total: totalPrice
             });

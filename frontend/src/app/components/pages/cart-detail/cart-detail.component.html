@@ -60,7 +60,7 @@
 
       <div class="mt-8">
         <ul class="space-y-4">
-          @for (item of cart.items; track $index) {
+          @for (item of cart.products; track $index) {
           <li class="flex items-center gap-4">
             <img
               [src]="item.product.image"
@@ -100,7 +100,7 @@
 
               <button
                 class="text-gray-600 transition hover:text-red-600"
-                (click)="deleteItem(item.id)"
+                (click)="deleteItem(item.product.id)"
               >
                 <span class="sr-only">Remove item</span>
 
@@ -226,7 +226,7 @@
                           (change)="updatePaymentMethod()"
                           class="mr-2"
                         />
-                        {{ method.description }}
+                        {{ method.description}}
                       </div>
                     </div>
                   </div>

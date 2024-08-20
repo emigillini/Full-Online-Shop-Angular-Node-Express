@@ -12,6 +12,7 @@ import passwordRoutes from './routes/password.routes';
 import conversationRoutes from './routes/conversations.routes';
 import messageRoutes from './routes/message.routes';
 import brandRoutes from './routes/brand.routes';
+import paymentRoutes from './routes/payment.routes';
 import passport from './config/passport';
 import cors from 'cors';
 
@@ -34,6 +35,7 @@ app.use('/api/password', passwordRoutes);
 app.use('/api/conversation', conversationRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/brand', brandRoutes);
+app.use('/api/payment', paymentRoutes);
 const PORT:string = process.env.PORT
 
 

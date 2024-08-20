@@ -3,7 +3,7 @@
 import { Request, Response } from "express";
 import { PurchaseService } from "../services/purchase.service";
 import { IUser } from "../types/types";
-import { Payment } from "../types/types";
+
 
 
 
@@ -26,12 +26,7 @@ export class PurchaseController {
                 res.status(400).json({ message: "Payment type are required" });
                 return;
             }
-            const validPayment: Payment[] = ["Stripe", "Cash"];
-
-            if (!validPayment.includes(paymentType as Payment)) {
-                res.status(400).json({ message: `Invalid Payment Type: ${paymentType}, valid Payments :"Stripe", "Cash" ` });
-                return;
-            }
+          
             
             const result = await purchaseserv.confirm_purchase(user._id, paymentType); 
 

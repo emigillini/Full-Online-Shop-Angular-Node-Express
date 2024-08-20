@@ -29,7 +29,7 @@ export class CartService {
   }
 
   private updateTotal(cart: Cart): void {
-    const total = cart.items.reduce(
+    const total = cart.products.reduce(
       (acc, item) => acc + item.quantity * item.product.price,
       0
     );
@@ -38,7 +38,7 @@ export class CartService {
 
   public getCart(): Observable<Cart> {
     this.loaderService.show();
-    return this.http.get<Cart>('cart/get_items/').pipe(
+    return this.http.get<Cart>('cart/get_cart/').pipe(
       tap((cart) => {
         this.cartSubject.next(cart);
         this.updateTotal(cart);
@@ -71,13 +71,13 @@ export class CartService {
       );
   }
 
-  public deleteItem(item_id: number): Observable<RemoveItemResponse> {
+  public deleteItem(product_id: number,
+    quantity?: number): Observable<RemoveItemResponse> {
     this.loaderService.show();
-    const removeItem: RemoveItemRequest = { item_id };
+    const removeItem: RemoveItemRequest = { product_id, quantity };
     return this.http
-      .delete<RemoveItemResponse>('cart/remove_item/', {
-        body: removeItem,
-      })
+      .post<RemoveItemResponse>('cart/remove_item/', removeItem
+      )
       .pipe(
         tap(() => {
           this.getCart().subscribe();
