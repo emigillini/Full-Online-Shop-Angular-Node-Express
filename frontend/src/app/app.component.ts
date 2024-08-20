@@ -24,14 +24,14 @@ import { CartService } from './services/cart/cart.service';
 })
 export class AppComponent implements OnInit {
   constructor(
-    private cartService: CartService,
+    //private cartService: CartService,
     private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.authService.isLogged$.subscribe(isLogged => {
       if (isLogged) {
-        this.cartService.loadInitialCart();
+       // this.cartService.loadInitialCart();
       }
     });
     window.addEventListener('storage', (event) => {

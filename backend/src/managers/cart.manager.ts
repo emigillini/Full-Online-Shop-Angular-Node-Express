@@ -96,6 +96,7 @@ export class CartManager {
            .sort({ createdAt: -1 })
            .populate('products.product')
            .populate("user")
+           
                 .exec();
             return cart
         } catch (error) {

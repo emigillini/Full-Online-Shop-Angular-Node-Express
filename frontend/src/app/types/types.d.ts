@@ -46,7 +46,7 @@ export interface Cart {
   user: User;
   products: IProduct[];
   date: string;
-  user: number;
+  
 }
 
 export interface IProduct {

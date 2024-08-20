@@ -32,17 +32,17 @@
               class="size-16 rounded object-cover"
             />
             <div>
-              <h3 class="text-sm text-gray-900">Basic</h3>
+              <h3 class="text-sm text-gray-900">Product</h3>
               <dl class="mt-0.5 space-y-px text-[10px] text-gray-600">
                 <div>
-                  <dt class="inline">{{ item.product.brand?.description }}</dt>
-                  <dd class="inline">{{ item.product.model?.model }}</dd>
+                  
+                  <dd class="inline">Model: {{ item.product.model }}</dd>
                 </div>
                 <div>
-                  <dt class="inline">{{ item.product.price }}</dt>
+                  <dt class="inline">Price: {{ item.product.price }}</dt>
                 </div>
                 <div>
-                  <dt class="inline">{{ item.quantity }}</dt>
+                  <dt class="inline">Quantity: {{ item.quantity }}</dt>
                 </div>
               </dl>
             </div>

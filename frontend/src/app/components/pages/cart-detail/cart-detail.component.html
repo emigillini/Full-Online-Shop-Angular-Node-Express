@@ -70,17 +70,15 @@
 
             <div>
               <h3 class="text-sm text-gray-900">
-                {{ item.product.brand?.description }}
+                {{ item.product.model }}
               </h3>
 
               <dl class="mt-0.5 space-y-px text-[10px] text-gray-600">
                 <div>
-                  <dt class="inline">{{ item.product.model?.model }}</dt>
-                  <dd class="inline">{{ item.product.size?.size }}</dd>
+                  <dt class="inline">Price: {{ item.product.price }}</dt>
                 </div>
-
                 <div>
-                  <dt class="inline">{{ item.product.price }}</dt>
+                  <dt class="inline">Color: {{ item.product.color}}</dt>
                 </div>
               </dl>
             </div>
