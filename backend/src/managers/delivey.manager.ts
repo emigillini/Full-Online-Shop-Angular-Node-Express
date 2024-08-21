@@ -16,7 +16,7 @@ export class DeliveryManager {
 
             const newDelivery = await DeliveryModel.create({
                 purchase:purchaseid,
-                delivery_address: user.address || user.email,
+                delivery_address: user.adress || user.email,
                 delivery_status : "Pending"
             });
            

@@ -17,25 +17,20 @@
 
     <div class="mt-8">
       <div class="space-y-4">
-        @for (detail of purchase.details; track $index) {
+        @for (product of purchase.purchase.cart.products ; track $index) {
         <div class="flex items-center">
           <img
-            [src]="detail.product.image"
-            alt="{{ detail.product.model?.model }}"
+            [src]="product.product.image"
+            alt="{{ product.product.model?.model }}"
             class="w-16 h-16 object-cover rounded-md mr-4"
           />
 
           <div class="flex-1">
             <h3 class="text-xl font-bold">
-              {{ detail.product.brand?.description }} -
-              {{ detail.product.model?.model }}
+              {{ product.product.model}}
             </h3>
-            <p class="text-gray-600">
-              Color: {{ detail.product.color?.description }}
-            </p>
-            <p class="text-gray-600">Size: {{ detail.product.size?.size }}</p>
-            <p class="font-bold mt-2">Price: ${{ detail.price }}</p>
-            <p class="text-gray-600">Quantity: {{ detail.quantity }}</p>
+            <p class="font-bold">Price: ${{ product.product.price }}</p>
+            <p class="text-gray-600">Quantity: {{ product.quantity }}</p>
           </div>
         </div>
         }
@@ -56,19 +51,15 @@
         <p class="text-gray-600">
           Delivery Status: {{ purchase.delivery.delivery_status }}
         </p>
-        <p class="text-gray-600">
-          PayMent Method: {{ purchase.payment_method }}
-        </p>
+        
       </div>
       <app-shoe-divider></app-shoe-divider>
 
       <div class="pt-4 mt-4">
         <h2 class="text-lg font-bold mb-2">Payment Details</h2>
         <p class="text-gray-600">Total: ${{ confirmedTotal }}</p>
-        <p class="text-gray-600">
-          Payment Intent ID: {{ purchase.payment_intent }}
-        </p>
-        <p class="text-gray-600">Payment Intent ID: {{ purchase.message }}</p>
+
+        <p class="text-gray-600">{{ purchase.message }}</p>
       </div>
     </div>
   </div>

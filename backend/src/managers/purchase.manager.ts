@@ -1,3 +1,4 @@
+import { DeliveryModel } from "../DAO/models/delivery_model";
 import { PurchaseModel } from "../DAO/models/purchase_model";
 import { IPurchase,IDelivery } from "../types/types";
 import { Types } from "mongoose";
@@ -59,27 +60,31 @@ export class PurchaseManager {
             } else {
                 throw new Error("Unsupported payment method");
             }
-
             const newPurchase = await PurchaseModel.create({
                 user: userId,
                 paymentType: paymentTypeId,
                 cart: cart._id,
                 total: totalPrice
             });
-
-            
-        
-            const delivery = await DeliveryService.create_delivery(userId, newPurchase._id)
-            
-            const populatedPurchase = await PurchaseModel.findById(newPurchase._id)
-            .populate('user') 
+    
+            // Create the delivery with the new purchase ID
+            const delivery = await DeliveryService.create_delivery(userId, newPurchase._id);
+    
+            // Update the purchase to include the delivery ID
+            const populatedPurchase = await PurchaseModel.findByIdAndUpdate(
+                newPurchase._id,
+                { delivery: delivery._id }, // Save delivery ID in the purchase
+                { new: true } // Return the updated document
+            )
+            .populate('user')
             .populate({
                 path: 'cart',
                 populate: {
                     path: 'products.product',
                     model: 'products'
                 }
-            }) 
+            })
+            .populate('delivery') 
             .exec();
             await cartservice.createCart(userId);
             return { purchase: populatedPurchase, delivery: delivery };;
@@ -92,16 +97,16 @@ export class PurchaseManager {
     async user_purchases(userId:Types.ObjectId): Promise<IPurchase[]> {
         try {
            const purchases = await PurchaseModel.find({ user: userId })
-           .populate('user') 
+           .populate('delivery')
+           .populate("cart")
            .populate({
-               path: 'cart',
-               populate: {
-                   path: 'products.product',
-                   model: 'products'
-               }
-           }) 
-           .exec();
-
+            path: 'cart',
+            populate: {
+                path: 'products.product',
+                model: 'products'
+            }
+        }) 
+            .exec();
         return purchases;
 
         } catch (error) {

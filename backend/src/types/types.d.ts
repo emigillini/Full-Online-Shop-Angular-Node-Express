@@ -15,7 +15,7 @@ export interface IUser extends Document {
     last_connection?: Date, 
     identification_number?: number,
     phone?: string,
-    address?:string
+    adress?:string
 }
 export interface IConversation extends Document {
     _id?: Types.ObjectId;
@@ -80,6 +80,7 @@ export interface IPurchase extends Document {
     total:number,
     paymentType:Types.ObjectId;
     cart: Types.ObjectId;
+    delivery:Types.ObjectId;
 
 }
 

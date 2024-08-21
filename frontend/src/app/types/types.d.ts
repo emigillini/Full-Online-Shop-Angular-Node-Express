@@ -124,32 +124,22 @@ export interface Purchase {
   date: string;
   user: User;
   total: number;
-  details: PurchaseDetail[];
+  cart: Cart
   payment_type: number;
   delivery: Delivery;
 }
 
-export interface PurchaseDetail {
-  id: number;
-  product: Product;
-  quantity: number;
-  price: number;
-  purchase: number;
-}
-
 export interface PurchaseConfirmationResponse {
   message: string;
-  details: PurchaseDetail[];
+  purchase: Purchase;
   delivery: Delivery;
-  payment_intent: string;
-  payment_method: string;
+  
 }
-
-export type DeliveryStatus = 'P' | 'T' | 'C';
+export type DeliveryStatus = 'Pending' | 'Transit' | 'Complete';
 
 export interface Delivery {
   id: number;
-  purchase: number;
+  purchase: Purchase
   tracking_number: string;
   delivery_address: string;
   estimated_date: string | null;

@@ -10,7 +10,7 @@ const UserSchema:Schema = new mongoose.Schema<IUser>({
     password: { type: String, required: true },
     is_admin: { type: Boolean, default: false },
     phone: { type: String, maxlength: 45 },
-    address: { type: String, maxlength: 45 },
+    adress: { type: String, maxlength: 45 },
     last_connection: { type: Date, default: Date.now }
 });
 UserSchema.virtual('conversations', {

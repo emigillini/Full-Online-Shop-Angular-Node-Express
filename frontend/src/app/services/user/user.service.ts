@@ -14,7 +14,7 @@ export class UserService {
 
   getUser(): Observable<User> {
     this.loaderService.show();
-    return this.http.get<User>( 'user/').pipe(
+    return this.http.get<User>( 'users/').pipe(
       catchError((error) => {
         console.error('Error occurred while fetching user:', error);
         throw error;
@@ -25,7 +25,7 @@ export class UserService {
 
   updateUser(data: Partial<User>): Observable<User> {
     this.loaderService.show();
-    return this.http.patch<User>( 'user/update/', data).pipe(
+    return this.http.patch<User>( 'users/update/', data).pipe(
       catchError((error) => {
         console.error('Error occurred while updating user:', error);
         throw error;

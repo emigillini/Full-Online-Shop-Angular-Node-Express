@@ -10,14 +10,16 @@ import { Purchase } from '../../../types/types';
   styleUrl: './purchase-history.component.css',
 })
 export class PurchaseHistoryComponent implements OnInit {
-  purchases: Purchase[] = [];
+  purchase: Purchase[] = [];
 
   constructor(private purchaseService: PurchaseService) {}
 
   public ngOnInit(): void {
     this.purchaseService.getPurchases().subscribe({
-      next: (response) => (this.purchases = response),
-      error: (error) => console.error(error),
+      next: (response) => {
+        this.purchase = response;
+      },
+      error: (error) => console.error('Error fetching purchases:', error),
     });
   }
 }
