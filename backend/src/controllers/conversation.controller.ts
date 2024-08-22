@@ -11,8 +11,9 @@ export class ConversationController {
  
     async createConversation(req: Request, res: Response): Promise<void> {
         try {
+            console.log('Request body:', req.body);
             const user= req.user as IUser 
-            const name = req.body.name
+            const {name} = req.body
             if (!user) {
                 res.status(400).json({ message: "User is not authenticated" });
                 return;
@@ -22,7 +23,7 @@ export class ConversationController {
                 return;
             }
             const conversation= await conversationserv.createConversation(user._id, name); 
-            res.status(200).json({message:"conversation created successfully", conversation:conversation});
+            res.status(200).json( conversation);
 
         } catch (error) {
             console.error("Error in ConversationController create:", error);
@@ -50,6 +51,21 @@ export class ConversationController {
             res.status(200).json(conversations);
         } catch (error) {
             console.error("Error in ConversationController getAllConversations:", error);
+            res.status(500).json({ message: error.message });
+        }
+    }
+    async deleteConversation(req: Request, res: Response): Promise<void> {
+        try {
+            
+            const conversationId = req.params.id;
+            if (!conversationId) {
+                res.status(400).json({ message: 'Conversation ID is required' });
+                return;
+            }
+            const conversation = await conversationserv.deleteConversation(conversationId);
+            res.status(200).json(conversation);
+        } catch (error) {
+            console.error('Error deleting conversation:', error);
             res.status(500).json({ message: error.message });
         }
     }

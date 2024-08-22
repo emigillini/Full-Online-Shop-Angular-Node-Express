@@ -9,6 +9,7 @@
     <h2 class="text-lg font-semibold mb-4">Conversations</h2>
 
     <details
+      #details
       class="overflow-hidden rounded border border-gray-300 [&_summary::-webkit-details-marker]:hidden"
     >
       <summary
@@ -38,7 +39,7 @@
           $index) {
           <li class="flex flex-col">
             <button
-              (click)="selectConversation(conversation)"
+              (click)="selectConversation(conversation); details.open = false;"
               [ngClass]="{
                 'bg-gray-200': selectedConversation === conversation
               }"
@@ -86,6 +87,14 @@
     >
       <div class="flex-1 overflow-y-auto">
         @if (selectedConversation) {
+        <div class="mb-4">
+          <input
+            type="text"
+            [(ngModel)]="selectedConversation.name"
+            class="w-full border border-gray-300 rounded p-2 text-center text-lg font-semibold"
+            readonly
+          />
+        </div>
         <div class="space-y-4">
           @if (!selectedConversation.open) {
           <div class="text-center text-red-500 mb-4">
@@ -99,7 +108,7 @@
           {
           <div class="p-2 rounded bg-gray-100">
             <div class="text-xs text-gray-600">
-              {{ message.sender.username }}
+              {{ message.user.email }}
             </div>
             <p class="mt-1 text-sm">{{ message.content }}</p>
             <div class="text-xs text-gray-500">

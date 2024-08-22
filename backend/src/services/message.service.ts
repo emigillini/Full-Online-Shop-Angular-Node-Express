@@ -25,9 +25,9 @@ export class MessageService {
     }
 
  
-    async createMessage(conversation: Types.ObjectId, sender: Types.ObjectId, content: string): Promise<IMessage> {
+    async createMessage(conversation: Types.ObjectId, user: Types.ObjectId, content: string): Promise<IMessage> {
         try {
-            return await messageManager.createMessage(conversation, sender, content);
+            return await messageManager.createMessage(conversation, user, content);
         } catch (error) {
             console.error("Error in MessageService createMessage:", error);
             throw new Error(`Error creating message: ${error.message}`);

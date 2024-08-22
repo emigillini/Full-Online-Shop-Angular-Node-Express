@@ -212,12 +212,12 @@ export interface NewConversation {
 
 export interface Message {
   id: number;
-  sender: User;
+  user: User;
   content: string;
   created_at: string;
   conversation: number;
 }
 export interface NewMessage {
   content: string;
-  conversation: number;
+  conversationId: number;
 }

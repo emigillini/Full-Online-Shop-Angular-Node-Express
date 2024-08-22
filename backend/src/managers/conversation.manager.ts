@@ -11,7 +11,7 @@ export class ConversationManager {
                 user: userId,
                 name: name,
             });
-
+            console.log(newConversation)
             return newConversation;
         } catch (error) {
             console.error("Error in ConversationManager createConversation:", error);
@@ -40,6 +40,20 @@ export class ConversationManager {
         } catch (error) {
             console.error("Error in ConversationManager getConversationById:", error);
             throw new Error(`Error fetching conversation: ${error.message}`);
+        }
+    }
+    async deleteConversation(conversationId: string): Promise<string> {
+        try {
+            const result = await ConversationModel.findByIdAndDelete(conversationId);
+            
+            if (!result) {
+                throw new Error('Conversation not found');
+            }
+            
+            return 'Conversation deleted successfully';
+        } catch (error) {
+            console.error('Error in ConversationManager deleteConversation:', error);
+            throw new Error(`Error deleting conversation: ${error.message}`);
         }
     }
 

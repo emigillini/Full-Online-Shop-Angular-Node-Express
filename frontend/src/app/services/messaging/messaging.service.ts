@@ -14,7 +14,17 @@ export class MessagingService {
 
   getConversations(): Observable<Conversation[]> {
     this.loaderService.show();
-    return this.http.get<Conversation[]>(`conversations/`).pipe(
+    return this.http.get<Conversation[]>(`conversation/all`).pipe(
+      catchError((error) => {
+        console.error('Error occurred while fetching conversations:', error);
+        throw error;
+      }),
+      finalize(() => this.loaderService.hide())
+    );
+  }
+  getUserConversations(): Observable<Conversation[]> {
+    this.loaderService.show();
+    return this.http.get<Conversation[]>(`conversation/user`).pipe(
       catchError((error) => {
         console.error('Error occurred while fetching conversations:', error);
         throw error;
@@ -23,10 +33,10 @@ export class MessagingService {
     );
   }
 
-  createConversation(conversation: { name: string }): Observable<Conversation> {
+  createConversation(name: string ): Observable<Conversation> {
     this.loaderService.show();
     return this.http
-      .post<Conversation>(`conversations/`, conversation)
+      .post<Conversation>(`conversation/`, {name}) 
       .pipe(
         catchError((error) => {
           console.error('Error occurred while creating conversation:', error);
@@ -38,7 +48,7 @@ export class MessagingService {
 
   deleteConversation(id: number): Observable<void> {
     this.loaderService.show();
-    return this.http.delete<void>(`conversations/${id}/`).pipe(
+    return this.http.delete<void>(`conversation/${id}/`).pipe(
       catchError((error) => {
         console.error('Error occurred while deleting conversation:', error);
         throw error;
@@ -49,19 +59,19 @@ export class MessagingService {
   closeConversation(id: number): Observable<Conversation> {
     this.loaderService.show();
     return this.http
-      .post<Conversation>(`conversations/${id}/close/`, {})
+      .post<Conversation>(`conversation/${id}/close/`, {})
       .pipe(
         catchError((error) => {
           console.error('Error occurred while closing conversation:', error);
           throw error;
         }),
         finalize(() => this.loaderService.hide())
-      );
+      ); 
   }
 
   createMessage(message: NewMessage): Observable<Message> {
     this.loaderService.show();
-    return this.http.post<Message>(`messages/`, message).pipe(
+    return this.http.post<Message>(`message/`, message).pipe(
       catchError((error) => {
         console.error('Error occurred while sending message:', error);
         throw error;
@@ -73,7 +83,7 @@ export class MessagingService {
   getMessages(conversationId: number): Observable<Message[]> {
     this.loaderService.show();
     return this.http
-      .get<Message[]>(`messages/?conversation=${conversationId}`)
+      .get<Message[]>(`message/?conversation=${conversationId}`)
       .pipe(
         catchError((error) => {
           console.error('Error occurred while fetching messages:', error);

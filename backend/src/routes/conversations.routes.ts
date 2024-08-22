@@ -10,7 +10,8 @@ const conversationCont = new ConversationController()
 conversationRoutes.get('/user', passport.authenticate('jwt', { session: false }), conversationCont.getUserConversations);
 conversationRoutes.get('/all', passport.authenticate('jwt', { session: false }), conversationCont.getAllConversations);
 conversationRoutes.post('/', passport.authenticate('jwt', { session: false }), conversationCont.createConversation); 
-conversationRoutes.get('/:id', passport.authenticate('jwt', { session: false }), conversationCont.getById); 
+conversationRoutes.get('/:id', passport.authenticate('jwt', { session: false }), conversationCont.getById);
+conversationRoutes.delete('/:id', passport.authenticate('jwt', { session: false }),adminOnly, conversationCont.deleteConversation); 
 conversationRoutes.post('/:id/close', passport.authenticate('jwt', { session: false }),adminOnly, conversationCont.closeConversation);
 
 

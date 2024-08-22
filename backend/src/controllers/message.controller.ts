@@ -8,7 +8,7 @@ export class MessageController {
   
     async getAllMessages(req: Request, res: Response): Promise<void> {
         try {
-            const conversationId = req.query.conversationId as string;
+            const conversationId = req.query.conversation as string;
             if (conversationId) {
                 // Fetch messages for a specific conversation
                 const messages = await messageService.getMessagesByConversation(conversationId);
@@ -27,19 +27,19 @@ export class MessageController {
 
     async createMessage(req: Request, res: Response): Promise<void> {
         try {
-            const sender =req.user as IUser
+            const user =req.user as IUser
             const conversationId = req.body.conversationId;
             const content  = req.body.content;
             if (!conversationId || !content) {
                 res.status(400).json({ message: "conversationId and content are required" });
                 return;
             }
-            if (!sender) {
+            if (!user) {
                 res.status(400).json({ message: "User is not authenticated" });
                 return;
             }
-            const newMessage = await messageService.createMessage(conversationId, sender._id, content);
-            res.status(201).json({ message: "Message created successfully", newMessage:newMessage });
+            const newMessage = await messageService.createMessage(conversationId, user._id, content);
+            res.status(201).json(newMessage );
         } catch (error) {
             console.error("Error in MessageController createMessage:", error);
             res.status(500).json({ message: error.message });

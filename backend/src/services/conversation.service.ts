@@ -42,6 +42,14 @@ export class ConversationService {
             throw new Error(`Error fetching conversation: ${error.message}`);
         }
     }
+    async deleteConversation(conversationId: string): Promise<string> {
+        try {
+            return await conversationman.deleteConversation(conversationId);
+        } catch (error) {
+            console.error("Error in ConversationService deleteConversation:", error);
+            throw new Error(`Error deleting conversation: ${error.message}`);
+        }
+    }
 
     async closeConversation(conversationId: string): Promise<IConversation | null> {
         try {

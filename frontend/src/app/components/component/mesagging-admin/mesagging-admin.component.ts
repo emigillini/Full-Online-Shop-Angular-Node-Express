@@ -67,7 +67,7 @@ export class MesaggingAdminComponent implements OnInit {
       const content = this.messageForm.get('content')?.value;
       const newMessage: NewMessage = {
         content,
-        conversation: this.selectedConversation.id,
+        conversationId: this.selectedConversation.id,
       };
       this.messagingService.createMessage(newMessage).subscribe({
         next: (message: Message) => {

@@ -28,7 +28,7 @@ export interface IConversation extends Document {
 export interface IMessage extends Document {
     _id?: Types.ObjectId;
     conversation: Types.ObjectId;
-    sender:Types.ObjectId;
+    user:Types.ObjectId;
     content: string,
     created_at: Date
 }
