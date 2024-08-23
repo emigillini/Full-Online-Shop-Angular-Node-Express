@@ -41,10 +41,8 @@ export class AuthService {
       const now = new Date().getTime();
       const expirationTime = new Date(expiresIn).getTime();
       if (now < expirationTime) {
-        console.log("logued")
         return true;
       } else {
-        console.log("no logued")
         return false;
       }
     }

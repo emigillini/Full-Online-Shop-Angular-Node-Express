@@ -32,7 +32,7 @@ export class DeliveryService {
   ): Observable<DeliveryStatusResponse> {
     this.loaderService.show();
     return this.http
-      .patch<DeliveryStatusResponse>(`deliveries/`, request)
+      .patch<DeliveryStatusResponse>(`deliveries/`, request) 
       .pipe(
         catchError((error) => {
           console.error('Error occurred while updating product stock:', error);

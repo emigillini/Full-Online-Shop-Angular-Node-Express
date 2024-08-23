@@ -1,36 +1,39 @@
-<div class="flex flex-wrap">
+<div class="flex flex-wrap justify-center">
+ 
   <section
-    class="relative border border-gray-300 hidden lg:block lg:w-1/5 my-10 mx-auto px-4 sm:px-6"
+    class="relative hidden lg:block lg:w-1/5 my-10 mx-4 px-4 py-6 border border-gray-300 bg-white rounded-lg shadow-lg"
   >
     <div class="block">
       <img
         [src]="other.image"
         alt="other.model"
-        class="h-48 w-full object-contain sm:h-60 lg:h-72"
+        class="h-72 w-full object-cover object-center rounded-t-lg"
       />
-      <h3 class="mt-4 text-lg font-semibold text-gray-900">
-        {{ other.model?.model }}
-      </h3>
-      <p class="mt-2 text-gray-700">{{ other.brand?.description }}</p>
-      <p class="mt-2 text-gray-700">{{ other.detail }}</p>
-      <div class="mt-4">
-        <a
-          class="inline-block bg-black px-4 py-2 text-xs font-medium text-white uppercase hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-          [routerLink]="'/products/'"
-        >
-          Other Products
-        </a>
+      <div class="p-4">
+        <h3 class="mt-4 text-lg font-semibold text-gray-900">
+          {{ other.model?.model }}
+        </h3>
+        <p class="mt-2 text-gray-700">{{ other.brand?.description }}</p>
+        <p class="mt-2 text-gray-700">{{ other.detail }}</p>
+        <div class="mt-4">
+          <a
+            class="inline-block bg-black px-4 py-2 text-xs font-medium text-white uppercase hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            [routerLink]="'/products/'"
+          >
+            Other Products
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
   <section
-    class="relative border border-gray-300 bg-white w-full lg:w-3/5 my-10 mx-auto px-4 sm:px-6"
+    class="relative w-full lg:w-3/5 my-10 mx-4 px-4 py-6 border border-gray-300 bg-white rounded-lg shadow-lg"
   >
     <img
       [src]="product.image"
       alt="product.model"
-      class="h-64 w-full object-contain sm:h-80 lg:h-90 mt-5"
+      class="h-80 w-full object-cover object-center rounded-t-lg"
     />
     <div class="p-6">
       <span

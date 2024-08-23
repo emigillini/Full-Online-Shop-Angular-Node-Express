@@ -4,6 +4,7 @@
   >
     <a
       class="flex items-center no-underline hover:no-underline font-bold text-gray-800"
+       [routerLink]="'/'"
     >
       <img
         src="https://st3.depositphotos.com/1020091/12754/v/450/depositphotos_127542692-stock-illustration-tennis-sneaker-icon.jpg"
@@ -22,7 +23,7 @@
       </p>
     </a>
     @if (!isMenuOpen) {
-    <div class="order-2 md:order-3 flex items-center space-x-1 md:space-x-1">
+    <div class="order-2 md:order-3 flex items-center mt-3 space-x-10 md:space-x-5">
       @if (isLogged) {<app-logout></app-logout>} @else {
       <a
         class="flex items-center no-underline hover:text-black"
@@ -145,7 +146,7 @@
         >
           <li>
             <a
-              class="text-lg inline-block no-underline hover:text-black hover:underline py-2 px-3"
+            class="text-sm md:text-base lg:text-xl inline-block no-underline hover:text-black hover:underline py-2 px-3"
               (click)="closeMenu()"
               [routerLink]="'/products/'"
               >Shop</a
@@ -153,7 +154,7 @@
           </li>
           <li>
             <a
-              class="text-lg inline-block no-underline hover:text-black hover:underline py-2 px-3"
+            class="text-sm md:text-base lg:text-xl inline-block no-underline hover:text-black hover:underline py-2 px-3"
               (click)="closeMenu()"
               [routerLink]="'/contact-page'"
               >Contact</a
@@ -161,7 +162,7 @@
           </li>
           <li>
             <a
-              class="text-lg inline-block no-underline hover:text-black hover:underline py-2 px-3"
+            class="text-sm md:text-base lg:text-xl inline-block no-underline hover:text-black hover:underline py-2 px-3"
               (click)="closeMenu()"
               [routerLink]="'/products/brand/Nike'"
               >Nike</a
@@ -169,7 +170,7 @@
           </li>
           <li>
             <a
-              class="text-lg inline-block no-underline hover:text-black hover:underline py-2 px-3"
+            class="text-sm md:text-base lg:text-xl inline-block no-underline hover:text-black hover:underline py-2 px-3"
               (click)="closeMenu()"
               [routerLink]="'/products/brand/Adidas'"
               >Adidas</a
@@ -177,7 +178,7 @@
           </li>
           <li>
             <a
-              class="text-lg inline-block no-underline hover:text-black hover:underline py-2 px-3"
+            class="text-sm md:text-base lg:text-xl inline-block no-underline hover:text-black hover:underline py-2 px-3"
               (click)="closeMenu()"
               [routerLink]="'/products/brand/Puma'"
               >Puma</a

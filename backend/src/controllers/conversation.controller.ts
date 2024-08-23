@@ -11,7 +11,6 @@ export class ConversationController {
  
     async createConversation(req: Request, res: Response): Promise<void> {
         try {
-            console.log('Request body:', req.body);
             const user= req.user as IUser 
             const {name} = req.body
             if (!user) {

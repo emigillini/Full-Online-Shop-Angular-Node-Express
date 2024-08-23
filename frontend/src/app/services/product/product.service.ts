@@ -5,10 +5,8 @@ import { NewProduct, Product } from '../../types/types';
 import { Observable } from 'rxjs';
 import { catchError, tap, finalize } from 'rxjs/operators';
 import {
-  ShoeModelType,
   BrandType,
-  SizeType,
-  ColorType,
+  
 } from '../../types/types';
 import { LoaderService } from '../loader/loader.service';
 
@@ -98,14 +96,7 @@ export class ProductService {
       finalize(() => this.loaderService.hide())
     );
   }
-  getShoeModels(): Observable<ShoeModelType[]> {
-    return this.http.get<ShoeModelType[]>(`model/`).pipe(
-      catchError((error) => {
-        console.error(`Error occurred while fetching models:`, error);
-        throw error;
-      })
-    );
-  }
+ 
   getBrands(): Observable<BrandType[]> {
     return this.http.get<BrandType[]>(`brand/`).pipe(
       catchError((error) => {
@@ -114,21 +105,5 @@ export class ProductService {
       })
     );
   }
-  getSizes(): Observable<SizeType[]> {
-    return this.http.get<SizeType[]>(`size/`).pipe(
-      catchError((error) => {
-        console.error(`Error occurred while fetching sizes:`, error);
-        throw error;
-      })
-    );
-  }
-
-  getColors(): Observable<ColorType[]> {
-    return this.http.get<ColorType[]>(`color/`).pipe(
-      catchError((error) => {
-        console.error(`Error occurred while fetching colors:`, error);
-        throw error;
-      })
-    );
-  }
+ 
 }

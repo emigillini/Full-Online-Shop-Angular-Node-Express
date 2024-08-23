@@ -54,8 +54,8 @@ export class DeliveriesComponent implements OnInit {
     statusDescription: DeliveryStatus
   ): void {
     const requestData = {
-      purchase_id: purchaseId,
-      status_description: statusDescription,
+      delivery_id: purchaseId,
+      delivery_status: statusDescription,
     };
 
     this.deliveryService.updateDeliveryStatus(requestData).subscribe({

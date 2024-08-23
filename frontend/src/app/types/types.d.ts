@@ -1,21 +1,6 @@
-export interface ShoeModelType {
-  id: number;
-  model: string;
-}
-
-export interface BrandType {
+export interface BrandType { 
   id: number;
   description: string;
-}
-
-export interface ColorType {
-  id: number;
-  description: string;
-}
-
-export interface SizeType {
-  id: number;
-  size: string;
 }
 
 export interface NewProduct {
@@ -136,6 +121,9 @@ export interface PurchaseConfirmationResponse {
   
 }
 export type DeliveryStatus = 'Pending' | 'Transit' | 'Complete';
+export type Color = "Red" | "Blue" | "White" | "Black"
+export type Model = "Model A"| "Model B"|"Model C"|"Model D"|"Model E"
+export type Size = 5 | 6 | 7 | 8
 
 export interface Delivery {
   id: number;
@@ -160,8 +148,8 @@ export interface DeliveryStatusResponse {
 }
 
 export interface UpdateDeliveryStatusRequest {
-  purchase_id: number;
-  status_description: DeliveryStatus;
+  delivery_id: number;
+  delivery_status: DeliveryStatus;
 }
 
 export interface PaymentTypes {

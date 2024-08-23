@@ -65,7 +65,6 @@ export class ProductController {
     async get_random_product_excluding_id(req: Request, res:Response): Promise<void> {
         try{
             const current_product_id= req.query.current_product_id as string
-            console.log(current_product_id)
             const product = await prodserv.get_random_product_excluding_id(current_product_id)
             if (product) {
                 res.status(200).json(product);

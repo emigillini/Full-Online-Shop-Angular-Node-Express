@@ -67,7 +67,7 @@ export class MessagingService {
         }),
         finalize(() => this.loaderService.hide())
       ); 
-  }
+  } 
 
   createMessage(message: NewMessage): Observable<Message> {
     this.loaderService.show();

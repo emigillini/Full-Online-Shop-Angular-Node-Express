@@ -59,6 +59,18 @@
           (ngSubmit)="addProduct($event)"
           class="mt-8 grid grid-cols-10 gap-6 bg-white p-6 rounded-lg shadow-lg"
         >
+          <div class="col-span-6">
+            <label for="brand" class="block text-sm font-medium text-gray-700"
+              >Brand:
+              <select id="brand" formControlName="brand" class="mt-2 w-full rounded-md border-gray-300 bg-gray-100 text-sm text-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2">
+                <option value="" disabled selected>Select a Brand</option>
+                @for (brand of brands; track $index) {
+                <option [value]="brand.id">{{ brand.description }}</option>
+                }
+              </select>
+            </label> 
+          </div>
+
           <div class="col-span-10">
             <label for="image" class="block text-sm font-medium text-gray-700"
               >Image:
@@ -80,6 +92,7 @@
               }
             </label>
           </div>
+
           <div class="col-span-10">
             <label for="detail" class="block text-sm font-medium text-gray-700"
               >Detail:
@@ -92,8 +105,7 @@
                 placeholder="Detail"
                 required
               />
-              @if (detail && detail.invalid && (detail.dirty || detail.touched))
-              {
+              @if (detail && detail.invalid && (detail.dirty || detail.touched)) {
               <div class="alert alert-danger">
                 @if (detail.errors?.['required']) {
                 <div>Required field.</div>
@@ -102,6 +114,7 @@
               }
             </label>
           </div>
+
           <div class="col-span-5">
             <label for="price" class="block text-sm font-medium text-gray-700"
               >Price:
@@ -123,6 +136,7 @@
               }
             </label>
           </div>
+
           <div class="col-span-5">
             <label for="stock" class="block text-sm font-medium text-gray-700"
               >Stock:
@@ -144,46 +158,38 @@
               }
             </label>
           </div>
+
           <div class="col-span-6">
             <label for="model" class="block text-sm font-medium text-gray-700"
               >Model:
-              <select id="model" formControlName="model" required="">
+              <select id="model" formControlName="model" class="mt-2 w-full rounded-md border-gray-300 bg-gray-100 text-sm text-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2">
                 <option value="" disabled selected>Select a Model</option>
-                @for (model of shoeModels; track $index) {
-                <option [value]="model.id">{{ model.model }}</option>
+                @for (model of models; track $index) {
+                <option [value]="model">{{ model }}</option>
                 }
               </select>
             </label>
           </div>
-          <div class="col-span-6">
-            <label for="brand" class="block text-sm font-medium text-gray-700"
-              >Brand:
-              <select id="brand" formControlName="brand">
-                <option value="" disabled selected>Select a Brand</option>
-                @for (brand of brands; track $index) {
-                <option [value]="brand.id">{{ brand.description }}</option>
-                }
-              </select>
-            </label>
-          </div>
+
           <div class="col-span-6">
             <label for="color" class="block text-sm font-medium text-gray-700"
               >Color:
-              <select id="color" formControlName="color">
+              <select id="color" formControlName="color" class="mt-2 w-full rounded-md border-gray-300 bg-gray-100 text-sm text-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2">
                 <option value="" disabled selected>Select a Color</option>
                 @for (color of colors; track $index) {
-                <option [value]="color.id">{{ color.description }}</option>
+                <option [value]="color">{{ color }}</option>
                 }
               </select>
             </label>
           </div>
+
           <div class="col-span-6">
             <label for="size" class="block text-sm font-medium text-gray-700"
               >Size:
-              <select id="size" formControlName="size">
+              <select id="size" formControlName="size" class="mt-2 w-full rounded-md border-gray-300 bg-gray-100 text-sm text-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2">
                 <option value="" disabled selected>Select a Size</option>
                 @for (size of sizes; track $index) {
-                <option [value]="size.id">{{ size.size }}</option>
+                <option [value]="size">{{ size }}</option>
                 }
               </select>
             </label>

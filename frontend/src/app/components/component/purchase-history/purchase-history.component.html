@@ -4,7 +4,7 @@
 
 <section class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
   <div class="space-y-8">
-    @for (purchase of purchase; track $index) {
+    @for (purchase of purchase.slice().reverse(); track $index) {
     <div
       class="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6 transition duration-300 hover:shadow-lg"
     >

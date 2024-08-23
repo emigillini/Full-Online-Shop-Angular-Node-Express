@@ -67,7 +67,6 @@ export class ProductManager {
         try {
             console.log(`Searching for brand: ${brandName}`);
             const brand = await BrandModel.findOne({ description: brandName }).exec();
-            console.log(brand)
             if (!brand) {
                 
                 throw new Error("Brand not found");

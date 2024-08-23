@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../../services/product/product.service';
-import {
-  NewProduct,
-  ShoeModelType,
-  BrandType,
-  SizeType,
-  ColorType,
-} from '../../../types/types';
+import { NewProduct,BrandType,Color,Model,Size} from '../../../types/types';
 import { FormsModule } from '@angular/forms';
 import {
   ReactiveFormsModule,
@@ -26,10 +20,10 @@ import Swal from 'sweetalert2';
 })
 export class NewProductComponent implements OnInit {
   form!: FormGroup;
-  shoeModels: ShoeModelType[] = [];
   brands: BrandType[] = [];
-  sizes: SizeType[] = [];
-  colors: ColorType[] = [];
+  colors: Color[] = ["Red", "Blue", "White", "Black"];
+  models: Model[] = ["Model A", "Model B", "Model C", "Model D", "Model E"];
+  sizes: Size[] = [5, 6, 7, 8];
 
   constructor(
     private productService: ProductService,
@@ -50,18 +44,12 @@ export class NewProductComponent implements OnInit {
   ngOnInit(): void {
     this.loadOptions();
   }
-
+ 
   loadOptions(): void {
-    this.productService
-      .getShoeModels()
-      .subscribe((models) => (this.shoeModels = models));
+    
     this.productService
       .getBrands()
       .subscribe((brands) => (this.brands = brands));
-    this.productService.getSizes().subscribe((sizes) => (this.sizes = sizes));
-    this.productService
-      .getColors()
-      .subscribe((colors) => (this.colors = colors));
   }
   get stock() {
     return this.form.get('stock');
@@ -77,6 +65,15 @@ export class NewProductComponent implements OnInit {
 
   get price() {
     return this.form.get('price');
+  }
+  get model() {
+    return this.form.get('model');
+  }
+  get color() {
+    return this.form.get('color');
+  }
+  get size() {
+    return this.form.get('size');
   }
 
   addProduct(event: Event): void {
@@ -95,10 +92,11 @@ export class NewProductComponent implements OnInit {
 
       this.productService.addProduct(newProduct).subscribe({
         next: (addedProduct) => {
-          if (addedProduct.id)
+          console.log(addedProduct)
+          if (addedProduct.model)
             Swal.fire({
               title: 'Product added successfully:',
-              text: 'New Stock: ' + addedProduct.model,
+              text: 'New Product: ' + addedProduct.brand,
               color: '#ffffff',
               icon: 'success',
               width: 300,
@@ -129,14 +127,7 @@ export class NewProductComponent implements OnInit {
 
   resetForm(): void {
     this.form.reset({
-      stock: '',
-      image: '',
-      detail: '',
-      price: '',
-      model: '',
-      brand: '',
-      size: '',
-      color: '',
+      
     });
   }
 }
