@@ -24,7 +24,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 app.use(passport.initialize());
 app.use(cors({
-  origin: 'http://localhost:4200',
+  origin:['http://localhost:4200',
+   "https://fullexpressangular.netlify.app"] ,
   optionsSuccessStatus: 200 
 }));
 app.use('/api/products', productRoutes);
