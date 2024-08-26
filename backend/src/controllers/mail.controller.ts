@@ -5,10 +5,6 @@ export class EmailController {
     async sendEmail(req: Request, res: Response): Promise<void> {
         const { subject, message, toEmail } = req.body;
 
-        if (!subject || !message || !toEmail) {
-            res.status(400).json({ status: 'error', message: 'Missing required fields' });
-            return;
-        }
         try {
             const result = await EmailService.sendEmail(subject, message, toEmail);
             if (result.status === 'success') {

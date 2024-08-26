@@ -15,6 +15,7 @@ import {
 } from '../../types/types';
 import Cookies from 'universal-cookie';
 import { LoaderService } from '../loader/loader.service';
+import { CartService } from '../cart/cart.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,7 @@ export class AuthService {
   );
   userEmail$ = this.userEmail.asObservable();
 
-  constructor(private http: HttpClient, private loaderService: LoaderService) {
+  constructor(private http: HttpClient, private loaderService: LoaderService, private cartService : CartService) {
     this.checkIsLogged();
   }
 
@@ -63,6 +64,8 @@ export class AuthService {
         const token = response.token;
         const is_staff = response.user.is_admin;
         this.createSession(userEmail, expiresIn, token, is_staff);
+       
+
         
       }),
       catchError((error) => {
