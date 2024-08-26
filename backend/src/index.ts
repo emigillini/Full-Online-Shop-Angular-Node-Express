@@ -15,9 +15,11 @@ import brandRoutes from './routes/brand.routes';
 import paymentRoutes from './routes/payment.routes';
 import passport from './config/passport';
 import cors from 'cors';
+import helmet from 'helmet';
 
 const app = express();
 
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 app.use(passport.initialize());

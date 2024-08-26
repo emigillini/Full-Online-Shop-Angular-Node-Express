@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const product_controller_1 = require("../controllers/product.controller");
+const productFilter_1 = require("../middlewares/productFilter");
+const passport_1 = __importDefault(require("passport"));
+const admin_1 = require("../middlewares/admin");
+const productValidators_1 = require("../validators/productValidators");
+const express_validator_1 = require("express-validator");
+const validationErrorHandler_1 = require("../middlewares/validationErrorHandler");
+const productRoutes = (0, express_1.Router)();
+const prodCont = new product_controller_1.ProductController();
+productRoutes.get('/get_random_product_excluding_id', prodCont.get_random_product_excluding_id);
+productRoutes.patch('/:id', passport_1.default.authenticate('jwt', { session: false }), admin_1.adminOnly, productValidators_1.modifyProductValidators, validationErrorHandler_1.validationErrorHandler, prodCont.modifiedProduct);
+productRoutes.get('/:id', (0, express_validator_1.param)('id').isMongoId().withMessage('Invalid product ID'), validationErrorHandler_1.validationErrorHandler, prodCont.getProductByIds);
+productRoutes.post('/', passport_1.default.authenticate('jwt', { session: false }), admin_1.adminOnly, productValidators_1.addProductValidators, validationErrorHandler_1.validationErrorHandler, prodCont.addProduct);
+productRoutes.get('/', productFilter_1.filterMiddleware, prodCont.getAllProducts);
+productRoutes.get('/brand/:brandName', productValidators_1.brandNameValidator, validationErrorHandler_1.validationErrorHandler, prodCont.getProductsByBrandName);
+exports.default = productRoutes;
