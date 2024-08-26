@@ -209,3 +209,7 @@ export interface NewMessage {
   content: string;
   conversationId: number;
 }
+export interface CacheEntry<T> {
+  data: T;
+  expiry: number;
+}
