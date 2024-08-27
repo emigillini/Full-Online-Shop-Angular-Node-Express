@@ -58,8 +58,16 @@ app.use((0, helmet_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(passport_1.default.initialize());
+const allowedOrigins = ['http://localhost:4200', 'https://fullexpressangular.netlify.app'];
 app.use((0, cors_1.default)({
-    origin: 'http://localhost:4200',
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     optionsSuccessStatus: 200
 }));
 app.use('/api/products', products_routes_1.default);
