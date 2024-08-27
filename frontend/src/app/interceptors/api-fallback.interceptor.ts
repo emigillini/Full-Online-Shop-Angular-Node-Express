@@ -6,7 +6,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable()
 export class ApiFallbackInterceptor implements HttpInterceptor {
   private readonly localBaseUrl = 'http://127.0.0.1:3000/api';
-  private readonly remoteBaseUrl = '';
+  private readonly remoteBaseUrl = 'https://fullonlline-express-server-production.up.railway.app/api';
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
    
