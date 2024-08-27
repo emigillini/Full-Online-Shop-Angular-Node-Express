@@ -74,17 +74,17 @@ export class PurchaseManager {
         total: totalPrice,
       });
 
-      // Create the delivery with the new purchase ID
+   
       const delivery = await DeliveryService.create_delivery(
         userId,
         newPurchase._id
       );
 
-      // Update the purchase to include the delivery ID
+ 
       const populatedPurchase = await PurchaseModel.findByIdAndUpdate(
         newPurchase._id,
-        { delivery: delivery._id }, // Save delivery ID in the purchase
-        { new: true } // Return the updated document
+        { delivery: delivery._id }, 
+        { new: true } 
       )
         .populate("user")
         .populate({

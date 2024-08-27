@@ -16,14 +16,14 @@ conversationRoutes.post(
   passport.authenticate("jwt", { session: false }),
   createConversationValidators,
   validationErrorHandler,
-  conversationCont.createConversation.bind(conversationCont)
+  conversationCont.createConversation
 );
 
 conversationRoutes.get(
   "/user",
   passport.authenticate("jwt", { session: false }),
   validationErrorHandler,
-  conversationCont.getUserConversations.bind(conversationCont)
+  conversationCont.getUserConversations
 );
 
 conversationRoutes.get(
@@ -36,7 +36,7 @@ conversationRoutes.get(
   passport.authenticate("jwt", { session: false }),
   conversationIdValidator,
   validationErrorHandler,
-  conversationCont.getById.bind(conversationCont)
+  conversationCont.getById
 );
 
 conversationRoutes.delete(
@@ -44,7 +44,7 @@ conversationRoutes.delete(
   passport.authenticate("jwt", { session: false }),
   conversationIdValidator,
   validationErrorHandler,
-  conversationCont.deleteConversation.bind(conversationCont)
+  conversationCont.deleteConversation
 );
 conversationRoutes.post(
   "/:id/close",
