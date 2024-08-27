@@ -31,7 +31,11 @@ export class AuthService {
   );
   userEmail$ = this.userEmail.asObservable();
 
-  constructor(private http: HttpClient, private loaderService: LoaderService, private cartService : CartService) {
+  constructor(
+    private http: HttpClient,
+    private loaderService: LoaderService,
+    private cartService: CartService
+  ) {
     this.checkIsLogged();
   }
 
@@ -54,7 +58,6 @@ export class AuthService {
     return !!this.cookies.get('isAdmin');
   }
 
-
   public login(user: UserLogin): Observable<LoginResponse> {
     this.loaderService.show();
     return this.http.post<LoginResponse>(`users/login/`, user).pipe(
@@ -64,9 +67,6 @@ export class AuthService {
         const token = response.token;
         const is_staff = response.user.is_admin;
         this.createSession(userEmail, expiresIn, token, is_staff);
-       
-
-        
       }),
       catchError((error) => {
         console.error('Login error:', error);
@@ -93,7 +93,7 @@ export class AuthService {
   public logout(): Observable<LogoutResponse> {
     this.loaderService.show();
 
-    return this.http.post<LogoutResponse>( 'users/logout/', {}).pipe(
+    return this.http.post<LogoutResponse>('users/logout/', {}).pipe(
       tap(() => {
         this.isLogged.next(false);
         this.isAdmin.next(false);
@@ -134,7 +134,7 @@ export class AuthService {
     return this.http
       .post<PasswordResetRequestResponse>(
         `password/reset-password-request/`,
-        body 
+        body
       )
       .pipe(
         catchError((error) => {

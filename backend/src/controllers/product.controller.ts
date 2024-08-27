@@ -33,7 +33,7 @@ export class ProductController {
       if (product) {
         res.status(200).json(product);
       } else {
-        res.status(404).json({ message: 'Product not found' });
+        res.status(404).json({ message: "Product not found" });
       }
     } catch (error) {
       console.error("Error in ProductController getProductByIds:", error);
@@ -41,17 +41,25 @@ export class ProductController {
     }
   }
 
-  async get_random_product_excluding_id(req: Request, res: Response): Promise<void> {
+  async get_random_product_excluding_id(
+    req: Request,
+    res: Response
+  ): Promise<void> {
     try {
       const current_product_id = req.query.current_product_id as string;
-      const product = await prodserv.get_random_product_excluding_id(current_product_id);
+      const product = await prodserv.get_random_product_excluding_id(
+        current_product_id
+      );
       if (product) {
         res.status(200).json(product);
       } else {
-        res.status(404).json({ message: 'Product not found' });
+        res.status(404).json({ message: "Product not found" });
       }
     } catch (error) {
-      console.error("Error in ProductController get_random_product_excluding_id:", error);
+      console.error(
+        "Error in ProductController get_random_product_excluding_id:",
+        error
+      );
       res.status(500).json({ message: error.message });
     }
   }
@@ -64,7 +72,7 @@ export class ProductController {
       if (product) {
         res.status(200).json(product);
       } else {
-        res.status(404).json({ message: 'Product not found' });
+        res.status(404).json({ message: "Product not found" });
       }
     } catch (error) {
       console.error("Error updating product:", error);

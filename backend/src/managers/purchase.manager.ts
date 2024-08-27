@@ -1,6 +1,6 @@
 import { DeliveryModel } from "../DAO/models/delivery_model";
 import { PurchaseModel } from "../DAO/models/purchase_model";
-import { IPurchase,IDelivery } from "../types/types";
+import { IPurchase, IDelivery } from "../types/types";
 import { Types } from "mongoose";
 import { CartModel } from "../DAO/models/cart_model";
 import { ProductModel } from "../DAO/models/product_model";
@@ -10,133 +10,136 @@ import { calculateTotalPrice } from "../utils/utils";
 import { CartService } from "../services/cart.service";
 import { PaymentModel } from "../DAO/models/payment_model";
 
-
-    
-const cartservice = new CartService()
+const cartservice = new CartService();
 
 export class PurchaseManager {
-    async create_purchase(userId:Types.ObjectId,  paymentType:string): Promise<{ purchase: IPurchase; delivery: IDelivery }> {
-        try {
-            const paymentModeType = await PaymentModel.findOne({ description: paymentType }).exec();
-            console.log(paymentModeType)
-            if (!paymentModeType) {
-                throw new Error("Payment type not found");
-            }
-            const paymentTypeId = paymentModeType._id;
-            console.log(paymentTypeId)
-            const cart = await CartModel.findOne({ user: userId }).sort({ createdAt: -1 }).populate('products.product').exec();
-            if (!cart) {
-                throw new Error("Cart not found");
-            }
-            if(cart.products.length===0){
-                throw new Error("No products in Cart");
-            }
+  async create_purchase(
+    userId: Types.ObjectId,
+    paymentType: string
+  ): Promise<{ purchase: IPurchase; delivery: IDelivery }> {
+    try {
+      const paymentModeType = await PaymentModel.findOne({
+        description: paymentType,
+      }).exec();
+      console.log(paymentModeType);
+      if (!paymentModeType) {
+        throw new Error("Payment type not found");
+      }
+      const paymentTypeId = paymentModeType._id;
+      console.log(paymentTypeId);
+      const cart = await CartModel.findOne({ user: userId })
+        .sort({ createdAt: -1 })
+        .populate("products.product")
+        .exec();
+      if (!cart) {
+        throw new Error("Cart not found");
+      }
+      if (cart.products.length === 0) {
+        throw new Error("No products in Cart");
+      }
 
-            for (const item of cart.products) { 
-                const product = item.product as any ;
-                if (product.stock < item.quantity) {
-                    throw new Error(`Insufficient stock for product ${product._id}`);
-                }
-                await ProductModel.updateOne(
-                    { _id: product._id },
-                    { $inc: { stock: -item.quantity } }
-                );
-            }
-            
-
-            
-            const totalPrice = calculateTotalPrice(cart);
-            if (paymentType === 'Stripe') {
-                const paymentMethodId= "pm_card_visa"
-                const amountInCents = totalPrice * 100; 
-                const paymentIntent = await StripeService.createPaymentIntent(amountInCents);
-                const confirmedIntent = await StripeService.confirmPaymentIntent(paymentIntent.id, paymentMethodId);
-                if (confirmedIntent.status !== 'succeeded') {
-                    throw new Error('Payment failed: ' + confirmedIntent.status);
-                }
-               
-            } else if (paymentType === 'Cash') {
-              
-            } else {
-                throw new Error("Unsupported payment method");
-            }
-            const newPurchase = await PurchaseModel.create({
-                user: userId,
-                paymentType: paymentTypeId,
-                cart: cart._id,
-                total: totalPrice
-            });
-    
-            // Create the delivery with the new purchase ID
-            const delivery = await DeliveryService.create_delivery(userId, newPurchase._id);
-    
-            // Update the purchase to include the delivery ID
-            const populatedPurchase = await PurchaseModel.findByIdAndUpdate(
-                newPurchase._id,
-                { delivery: delivery._id }, // Save delivery ID in the purchase
-                { new: true } // Return the updated document
-            )
-            .populate('user')
-            .populate({
-                path: 'cart',
-                populate: {
-                    path: 'products.product',
-                    model: 'products'
-                }
-            })
-            .populate('delivery') 
-            .exec();
-            await cartservice.createCart(userId);
-            return { purchase: populatedPurchase, delivery: delivery };;
-
-        } catch (error) {
-            console.error("Error creating purchase:", error);
-            throw new Error("Failed create Purchase");
+      for (const item of cart.products) {
+        const product = item.product as any;
+        if (product.stock < item.quantity) {
+          throw new Error(`Insufficient stock for product ${product._id}`);
         }
-    }
-    async user_purchases(userId:Types.ObjectId): Promise<IPurchase[]> {
-        try {
-           const purchases = await PurchaseModel.find({ user: userId })
-           .populate('delivery')
-           .populate("cart")
-           .populate({
-            path: 'cart',
-            populate: {
-                path: 'products.product',
-                model: 'products'
-            }
-        }) 
-            .exec();
-        return purchases;
+        await ProductModel.updateOne(
+          { _id: product._id },
+          { $inc: { stock: -item.quantity } }
+        );
+      }
 
-        } catch (error) {
-            console.error("Error fetching user purchases:", error);
-            throw new Error("Failed to fetch user purchases");
+      const totalPrice = calculateTotalPrice(cart);
+      if (paymentType === "Stripe") {
+        const paymentMethodId = "pm_card_visa";
+        const amountInCents = totalPrice * 100;
+        const paymentIntent = await StripeService.createPaymentIntent(
+          amountInCents
+        );
+        const confirmedIntent = await StripeService.confirmPaymentIntent(
+          paymentIntent.id,
+          paymentMethodId
+        );
+        if (confirmedIntent.status !== "succeeded") {
+          throw new Error("Payment failed: " + confirmedIntent.status);
         }
+      } else if (paymentType === "Cash") {
+      } else {
+        throw new Error("Unsupported payment method");
+      }
+      const newPurchase = await PurchaseModel.create({
+        user: userId,
+        paymentType: paymentTypeId,
+        cart: cart._id,
+        total: totalPrice,
+      });
+
+      // Create the delivery with the new purchase ID
+      const delivery = await DeliveryService.create_delivery(
+        userId,
+        newPurchase._id
+      );
+
+      // Update the purchase to include the delivery ID
+      const populatedPurchase = await PurchaseModel.findByIdAndUpdate(
+        newPurchase._id,
+        { delivery: delivery._id }, // Save delivery ID in the purchase
+        { new: true } // Return the updated document
+      )
+        .populate("user")
+        .populate({
+          path: "cart",
+          populate: {
+            path: "products.product",
+            model: "products",
+          },
+        })
+        .populate("delivery")
+        .exec();
+      await cartservice.createCart(userId);
+      return { purchase: populatedPurchase, delivery: delivery };
+    } catch (error) {
+      console.error("Error creating purchase:", error);
+      throw new Error("Failed create Purchase");
     }
-
-    async get_purchases(): Promise<IPurchase[]> {
-        try {
-           const purchases = await PurchaseModel.find()
-           .populate('user') 
-           .populate({
-               path: 'cart',
-               populate: {
-                   path: 'products.product',
-                   model: 'products'
-               }
-           }) 
-           .exec();
-
-        return purchases;
-
-        } catch (error) {
-            console.error("Error fetching purchases:", error);
-            throw new Error("fetching purchases");
-        }
+  }
+  async user_purchases(userId: Types.ObjectId): Promise<IPurchase[]> {
+    try {
+      const purchases = await PurchaseModel.find({ user: userId })
+        .populate("delivery")
+        .populate("cart")
+        .populate({
+          path: "cart",
+          populate: {
+            path: "products.product",
+            model: "products",
+          },
+        })
+        .exec();
+      return purchases;
+    } catch (error) {
+      console.error("Error fetching user purchases:", error);
+      throw new Error("Failed to fetch user purchases");
     }
+  }
 
-   
- 
-    
+  async get_purchases(): Promise<IPurchase[]> {
+    try {
+      const purchases = await PurchaseModel.find()
+        .populate("user")
+        .populate({
+          path: "cart",
+          populate: {
+            path: "products.product",
+            model: "products",
+          },
+        })
+        .exec();
+
+      return purchases;
+    } catch (error) {
+      console.error("Error fetching purchases:", error);
+      throw new Error("fetching purchases");
+    }
+  }
 }

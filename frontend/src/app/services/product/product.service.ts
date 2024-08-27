@@ -4,10 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { NewProduct, Product } from '../../types/types';
 import { Observable, of } from 'rxjs';
 import { catchError, tap, finalize } from 'rxjs/operators';
-import {
-  BrandType,
-  
-} from '../../types/types';
+import { BrandType } from '../../types/types';
 import { LoaderService } from '../loader/loader.service';
 import { CacheService } from '../cache/cache.service';
 
@@ -15,7 +12,7 @@ import { CacheService } from '../cache/cache.service';
   providedIn: 'root',
 })
 export class ProductService {
-  private readonly CACHE_DURATION = 15 * 60 * 1000; 
+  private readonly CACHE_DURATION = 15 * 60 * 1000;
 
   constructor(
     private http: HttpClient,
@@ -42,12 +39,11 @@ export class ProductService {
     }
     const cacheKey = this.createCacheKey(filters);
 
-
     const cachedProducts = this.productCacheService.get(cacheKey);
     if (cachedProducts) {
       console.log('Returning cached data for:', cacheKey);
       this.loaderService.hide();
-      return of(cachedProducts); 
+      return of(cachedProducts);
     } else {
       console.log('Making a new request for products');
     }
@@ -55,7 +51,7 @@ export class ProductService {
     return this.http.get<Product[]>(`products/`, { params }).pipe(
       tap((data) => {
         console.log('Caching data for:', cacheKey);
-        this.productCacheService.set(cacheKey, data, this.CACHE_DURATION); 
+        this.productCacheService.set(cacheKey, data, this.CACHE_DURATION);
       }),
       catchError((error) => {
         console.error('Error occurred while fetching products:', error);
@@ -102,15 +98,13 @@ export class ProductService {
   }
   public patchProductStock(id: number, stock: number): Observable<Product> {
     this.loaderService.show();
-    return this.http
-      .patch<Product>(`products/${id}/`, { stock })
-      .pipe(
-        catchError((error) => {
-          console.error('Error occurred while updating product stock:', error);
-          throw error;
-        }),
-        finalize(() => this.loaderService.hide())
-      );
+    return this.http.patch<Product>(`products/${id}/`, { stock }).pipe(
+      catchError((error) => {
+        console.error('Error occurred while updating product stock:', error);
+        throw error;
+      }),
+      finalize(() => this.loaderService.hide())
+    );
   }
   public addProduct(product: NewProduct): Observable<Product> {
     this.loaderService.show();
@@ -122,9 +116,9 @@ export class ProductService {
       finalize(() => this.loaderService.hide())
     );
   }
- 
+
   public getBrands(): Observable<BrandType[]> {
-    const cacheKey = 'brands'; 
+    const cacheKey = 'brands';
 
     const cachedBrands = this.brandCacheService.get(cacheKey);
     if (cachedBrands) {
@@ -144,4 +138,5 @@ export class ProductService {
         throw error;
       })
     );
-  }}
+  }
+}

@@ -71,13 +71,14 @@ export class CartService {
       );
   }
 
-  public deleteItem(product_id: number,
-    quantity?: number): Observable<RemoveItemResponse> {
+  public deleteItem(
+    product_id: number,
+    quantity?: number
+  ): Observable<RemoveItemResponse> {
     this.loaderService.show();
     const removeItem: RemoveItemRequest = { product_id, quantity };
     return this.http
-      .post<RemoveItemResponse>('cart/remove_item/', removeItem
-      )
+      .post<RemoveItemResponse>('cart/remove_item/', removeItem)
       .pipe(
         tap(() => {
           this.getCart().subscribe();

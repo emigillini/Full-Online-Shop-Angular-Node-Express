@@ -1,14 +1,14 @@
 export interface IRegisterUser {
-    username: string;
-    email: string;
-    password: string;
-    identification_number:number;
-    phone: string;
-    address: string;
-  }
+  username: string;
+  email: string;
+  password: string;
+  identification_number: number;
+  phone: string;
+  address: string;
+}
 
-  export interface ILoginUser {
-    username: string;
-    email: string;
-    password: string;
-  }
+export interface ILoginUser {
+  username: string;
+  email: string;
+  password: string;
+}

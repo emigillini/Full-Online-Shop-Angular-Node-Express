@@ -16,14 +16,14 @@ export class CartPopupComponent implements OnInit {
 
   constructor(private cartService: CartService) {}
   ngOnInit(): void {
-    this.cartService.loadInitialCart()
+    this.cartService.loadInitialCart();
     this.cartService.cartSubject$.subscribe({
       next: (cartobj) => {
         this.cart = cartobj;
       },
       error: (error) => console.error(error),
       complete: () => {
-        console.log('Cart cargado:', this.cart);
+        console.log('Cart :', this.cart);
       },
     });
     this.cartService.total$.subscribe({
@@ -32,7 +32,7 @@ export class CartPopupComponent implements OnInit {
       },
       error: (error) => console.error(error),
       complete: () => {
-        console.log('Total calculado:', this.total);
+        console.log('Total:', this.total);
       },
     });
   }

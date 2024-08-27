@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CacheEntry } from '../../types/types';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -14,11 +13,9 @@ export class CacheService<T> {
     const entry = this.cache.get(key);
 
     if (entry) {
-    
       if (Date.now() < entry.expiry) {
         return entry.data;
       } else {
-      
         this.cache.delete(key);
       }
     }

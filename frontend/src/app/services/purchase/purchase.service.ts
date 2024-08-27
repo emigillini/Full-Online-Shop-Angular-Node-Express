@@ -43,10 +43,9 @@ export class PurchaseService {
   ): Observable<PurchaseConfirmationResponse> {
     this.loaderService.show();
     return this.http
-      .post<PurchaseConfirmationResponse>(
-        'purchase/confirm_purchase/',
-        { paymentType }
-      )
+      .post<PurchaseConfirmationResponse>('purchase/confirm_purchase/', {
+        paymentType,
+      })
       .pipe(
         tap((response) => {
           this.cartService.getCart().subscribe();
@@ -84,23 +83,21 @@ export class PurchaseService {
       catchError((error) => {
         console.error('Error occurred while fetching purchases:', error);
         throw error;
-      }) 
+      })
     );
   }
 
   public getPurchases(): Observable<Purchase[]> {
     this.loaderService.show();
-    return this.http
-      .get<Purchase[]>('purchase/user_purchases/')
-      .pipe(
-        tap(() => {
-          this.cartService.getCart().subscribe();
-        }),
-        catchError((error) => {
-          console.error('Error occurred while fetching purchases:', error);
-          throw error;
-        }),
-        finalize(() => this.loaderService.hide())
-      );
+    return this.http.get<Purchase[]>('purchase/user_purchases/').pipe(
+      tap(() => {
+        this.cartService.getCart().subscribe();
+      }),
+      catchError((error) => {
+        console.error('Error occurred while fetching purchases:', error);
+        throw error;
+      }),
+      finalize(() => this.loaderService.hide())
+    );
   }
 }

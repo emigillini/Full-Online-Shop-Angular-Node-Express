@@ -1,4 +1,4 @@
-export interface BrandType { 
+export interface BrandType {
   id: number;
   description: string;
 }
@@ -31,16 +31,14 @@ export interface Cart {
   user: User;
   products: IProduct[];
   date: string;
-  createdAt: string,
-  updatedAt: string
-
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IProduct {
   id: number;
   quantity: number;
   product: Product;
-  
 }
 export interface NewItem {
   product_id: number;
@@ -109,7 +107,7 @@ export interface Purchase {
   date: string;
   user: User;
   total: number;
-  cart: Cart
+  cart: Cart;
   payment_type: number;
   delivery: Delivery;
 }
@@ -118,16 +116,15 @@ export interface PurchaseConfirmationResponse {
   message: string;
   purchase: Purchase;
   delivery: Delivery;
-  
 }
 export type DeliveryStatus = 'Pending' | 'Transit' | 'Complete';
-export type Color = "Red" | "Blue" | "White" | "Black"
-export type Model = "Model A"| "Model B"|"Model C"|"Model D"|"Model E"
-export type Size = 5 | 6 | 7 | 8
+export type Color = 'Red' | 'Blue' | 'White' | 'Black';
+export type Model = 'Model A' | 'Model B' | 'Model C' | 'Model D' | 'Model E';
+export type Size = 5 | 6 | 7 | 8;
 
 export interface Delivery {
   id: number;
-  purchase: Purchase
+  purchase: Purchase;
   tracking_number: string;
   delivery_address: string;
   estimated_date: string | null;

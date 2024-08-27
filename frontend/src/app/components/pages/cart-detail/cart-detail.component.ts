@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../../services/cart/cart.service';
 import { PurchaseService } from '../../../services/purchase/purchase.service';
-import { Cart, PurchaseConfirmationResponse, PaymentTypes } from '../../../types/types';
+import {
+  Cart,
+  PurchaseConfirmationResponse,
+  PaymentTypes,
+} from '../../../types/types';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PurchaseComponent } from '../../component/purchase/purchase.component';
 import { Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-js';

@@ -33,17 +33,15 @@ export class MessagingService {
     );
   }
 
-  createConversation(name: string ): Observable<Conversation> {
+  createConversation(name: string): Observable<Conversation> {
     this.loaderService.show();
-    return this.http
-      .post<Conversation>(`conversation/`, {name}) 
-      .pipe(
-        catchError((error) => {
-          console.error('Error occurred while creating conversation:', error);
-          throw error;
-        }),
-        finalize(() => this.loaderService.hide())
-      );
+    return this.http.post<Conversation>(`conversation/`, { name }).pipe(
+      catchError((error) => {
+        console.error('Error occurred while creating conversation:', error);
+        throw error;
+      }),
+      finalize(() => this.loaderService.hide())
+    );
   }
 
   deleteConversation(id: number): Observable<void> {
@@ -58,16 +56,14 @@ export class MessagingService {
   }
   closeConversation(id: number): Observable<Conversation> {
     this.loaderService.show();
-    return this.http
-      .post<Conversation>(`conversation/${id}/close/`, {})
-      .pipe(
-        catchError((error) => {
-          console.error('Error occurred while closing conversation:', error);
-          throw error;
-        }),
-        finalize(() => this.loaderService.hide())
-      ); 
-  } 
+    return this.http.post<Conversation>(`conversation/${id}/close/`, {}).pipe(
+      catchError((error) => {
+        console.error('Error occurred while closing conversation:', error);
+        throw error;
+      }),
+      finalize(() => this.loaderService.hide())
+    );
+  }
 
   createMessage(message: NewMessage): Observable<Message> {
     this.loaderService.show();

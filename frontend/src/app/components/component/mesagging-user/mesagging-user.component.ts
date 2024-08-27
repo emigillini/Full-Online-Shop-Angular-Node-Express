@@ -54,7 +54,7 @@ export class MesaggingUserComponent implements OnInit {
     {
       this.messagingService.getMessages(conversationId).subscribe({
         next: (data: Message[]) => {
-          console.log(data)
+          console.log(data);
           this.messages = data;
         },
         error: (error) => {
@@ -66,13 +66,13 @@ export class MesaggingUserComponent implements OnInit {
 
   createConversation(): void {
     this.messagingService
-      .createConversation( this.newConversationName )
+      .createConversation(this.newConversationName)
       .subscribe({
         next: (newConversation: Conversation) => {
           this.conversations.unshift(newConversation); //
           this.selectedConversation = newConversation;
           this.loadMessages(newConversation.id);
-          console.log(newConversation)
+          console.log(newConversation);
           this.newConversationName = '';
         },
         error: (error) => {
@@ -87,11 +87,10 @@ export class MesaggingUserComponent implements OnInit {
       const newMessage: NewMessage = {
         content,
         conversationId: this.selectedConversation.id,
-        
       };
       this.messagingService.createMessage(newMessage).subscribe({
         next: (message: Message) => {
-          console.log(message)
+          console.log(message);
           this.messages.unshift(message);
           this.messageForm.reset();
         },

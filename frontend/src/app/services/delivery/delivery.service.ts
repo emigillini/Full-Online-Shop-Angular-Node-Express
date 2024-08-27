@@ -31,14 +31,12 @@ export class DeliveryService {
     request: UpdateDeliveryStatusRequest
   ): Observable<DeliveryStatusResponse> {
     this.loaderService.show();
-    return this.http
-      .patch<DeliveryStatusResponse>(`deliveries/`, request) 
-      .pipe(
-        catchError((error) => {
-          console.error('Error occurred while updating product stock:', error);
-          throw error;
-        }),
-        finalize(() => this.loaderService.hide())
-      );
+    return this.http.patch<DeliveryStatusResponse>(`deliveries/`, request).pipe(
+      catchError((error) => {
+        console.error('Error occurred while updating product stock:', error);
+        throw error;
+      }),
+      finalize(() => this.loaderService.hide())
+    );
   }
 }
