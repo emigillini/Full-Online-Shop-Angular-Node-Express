@@ -13,7 +13,7 @@ export class PasswordManager {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET as string, {
       expiresIn: "1h",
     });
-    const resetLink = `http://localhost:4200/reset-password/${user._id}/${token}`;
+    const resetLink = `https://fullexpressangular.netlify.app/reset-password/${user._id}/${token}`;
     const message = `<div>
           <p>Click the link below to reset your password:</p> 
           <p><a href="${resetLink}">${resetLink}</a></p>
