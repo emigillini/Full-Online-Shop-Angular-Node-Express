@@ -31,7 +31,9 @@ class ConversationManager {
     getUserConversations(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield conversation_model_1.ConversationModel.find({ user: userId }).populate("user").exec();
+                return yield conversation_model_1.ConversationModel.find({ user: userId })
+                    .populate("user")
+                    .exec();
             }
             catch (error) {
                 console.error("Error in ConversationManager getAllConversations:", error);
@@ -53,7 +55,9 @@ class ConversationManager {
     getConversationById(conversationId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield conversation_model_1.ConversationModel.findById(conversationId).populate("user").exec();
+                return yield conversation_model_1.ConversationModel.findById(conversationId)
+                    .populate("user")
+                    .exec();
             }
             catch (error) {
                 console.error("Error in ConversationManager getConversationById:", error);
@@ -66,12 +70,12 @@ class ConversationManager {
             try {
                 const result = yield conversation_model_1.ConversationModel.findByIdAndDelete(conversationId);
                 if (!result) {
-                    throw new Error('Conversation not found');
+                    throw new Error("Conversation not found");
                 }
-                return 'Conversation deleted successfully';
+                return "Conversation deleted successfully";
             }
             catch (error) {
-                console.error('Error in ConversationManager deleteConversation:', error);
+                console.error("Error in ConversationManager deleteConversation:", error);
                 throw new Error(`Error deleting conversation: ${error.message}`);
             }
         });
@@ -79,7 +83,9 @@ class ConversationManager {
     closeConversation(conversationId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield conversation_model_1.ConversationModel.findByIdAndUpdate(conversationId, { open: false, closed_at: new Date() }, { new: true }).populate("user").exec();
+                return yield conversation_model_1.ConversationModel.findByIdAndUpdate(conversationId, { open: false, closed_at: new Date() }, { new: true })
+                    .populate("user")
+                    .exec();
             }
             catch (error) {
                 console.error("Error in ConversationManager closeConversation:", error);

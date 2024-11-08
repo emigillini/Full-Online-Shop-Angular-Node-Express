@@ -19,7 +19,7 @@ class CartManager {
                 const newCart = yield cart_model_1.CartModel.create({
                     user: userId,
                     date: new Date(),
-                    products: []
+                    products: [],
                 });
                 return newCart;
             }
@@ -54,12 +54,15 @@ class CartManager {
                 if (product.stock < quantity) {
                     throw new Error("Insufficient stock");
                 }
-                const productIndex = cart.products.findIndex(p => p.product.toString() === product.toString());
+                const productIndex = cart.products.findIndex((p) => p.product._id.toString() === product_id.toString() || p.product.toString() === product_id.toString());
                 if (productIndex > -1) {
                     cart.products[productIndex].quantity += quantity;
                 }
                 else {
-                    const newCartProduct = { product: product_id, quantity };
+                    const newCartProduct = {
+                        product: product_id,
+                        quantity,
+                    };
                     cart.products.push(newCartProduct);
                 }
                 yield cart.save();
@@ -78,7 +81,7 @@ class CartManager {
                 if (!product) {
                     throw new Error("Product not found");
                 }
-                const productIndex = cart.products.findIndex(p => p.product.toString() === product.toString());
+                const productIndex = cart.products.findIndex((p) => p.product._id.toString() === product_id.toString() || p.product.toString() === product_id.toString());
                 if (productIndex > -1) {
                     if (cart.products[productIndex].quantity <= quantity) {
                         cart.products.splice(productIndex, 1);
@@ -104,7 +107,11 @@ class CartManager {
             try {
                 const cart = yield cart_model_1.CartModel.findOne({ user: userId })
                     .sort({ createdAt: -1 })
-                    .populate('products.product')
+                    .populate("products.product")
+                    .populate({
+                    path: 'products.product', // Popula los productos en el carrito
+                    populate: { path: 'brand' }, // Popula la marca dentro de los productos
+                })
                     .populate("user")
                     .exec();
                 return cart;

@@ -26,6 +26,8 @@ app.use(passport.initialize());
 const allowedOrigins = [
   "http://localhost:4200",
   "https://fullexpressangular.netlify.app",
+  "http://localhost:3000",
+  "http://10.0.2.2:3000",
 ];
 app.use(
   cors({

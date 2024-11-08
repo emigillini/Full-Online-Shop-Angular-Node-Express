@@ -57,7 +57,9 @@ class ConversationController {
             try {
                 const conversationId = req.params.id;
                 const conversation = yield conversationService.deleteConversation(conversationId);
-                res.status(200).json({ message: "Conversation deleted successfully", conversation });
+                res
+                    .status(200)
+                    .json({ message: "Conversation deleted successfully", conversation });
             }
             catch (error) {
                 console.error("Error in ConversationController deleteConversation:", error);
@@ -91,7 +93,12 @@ class ConversationController {
                     res.status(404).json({ message: "Conversation not found" });
                     return;
                 }
-                res.status(200).json({ message: "Conversation closed successfully", conversation: updatedConversation });
+                res
+                    .status(200)
+                    .json({
+                    message: "Conversation closed successfully",
+                    conversation: updatedConversation,
+                });
             }
             catch (error) {
                 console.error("Error in ConversationController closeConversation:", error);

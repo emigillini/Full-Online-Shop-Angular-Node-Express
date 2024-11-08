@@ -26,12 +26,17 @@ class PurchaseController {
                 res.status(200).json({
                     message: "Purchase and delivery created successfully",
                     purchase: result.purchase,
-                    delivery: result.delivery
+                    delivery: result.delivery,
                 });
             }
             catch (error) {
                 console.error("Error in PurchaseController: confirm_purchase", error);
-                res.status(500).json({ message: "An error occurred while confirming the purchase", error: error.message });
+                res
+                    .status(500)
+                    .json({
+                    message: "An error occurred while confirming the purchase",
+                    error: error.message,
+                });
             }
         });
     }
@@ -48,7 +53,12 @@ class PurchaseController {
             }
             catch (error) {
                 console.error("Error in PurchaseController: user_purchases", error);
-                res.status(500).json({ message: "An error occurred while fetching user purchases", error: error.message });
+                res
+                    .status(500)
+                    .json({
+                    message: "An error occurred while fetching user purchases",
+                    error: error.message,
+                });
             }
         });
     }
@@ -60,7 +70,12 @@ class PurchaseController {
             }
             catch (error) {
                 console.error("Error in PurchaseController: get_purchases", error);
-                res.status(500).json({ message: "An error occurred while fetching all purchases", error: error.message });
+                res
+                    .status(500)
+                    .json({
+                    message: "An error occurred while fetching all purchases",
+                    error: error.message,
+                });
             }
         });
     }

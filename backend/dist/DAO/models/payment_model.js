@@ -9,6 +9,6 @@ const PaymentCollection = "payment";
 const PaymentSchema = new mongoose_1.default.Schema({
     description: { type: String, required: true },
 });
-PaymentSchema.set('toObject', { virtuals: true });
-PaymentSchema.set('toJSON', { virtuals: true });
+PaymentSchema.set("toObject", { virtuals: true });
+PaymentSchema.set("toJSON", { virtuals: true });
 exports.PaymentModel = mongoose_1.default.model(PaymentCollection, PaymentSchema);

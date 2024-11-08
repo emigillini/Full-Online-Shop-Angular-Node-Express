@@ -90,8 +90,19 @@ export class PurchaseManager {
         .populate({
           path: "cart",
           populate: {
-            path: "products.product",
+            path: "products.product", // Poblamos el producto
             model: "products",
+            populate: {
+              path: "brand", // Poblamos la marca del producto
+              model: "brands"
+            }
+          }
+        })
+        .populate({
+          path: "cart",
+          populate: {
+            path: "user",
+            model: "users",
           },
         })
         .populate("delivery")
@@ -108,6 +119,13 @@ export class PurchaseManager {
       const purchases = await PurchaseModel.find({ user: userId })
         .populate("delivery")
         .populate("cart")
+        .populate({
+          path: "cart",
+          populate: {
+            path: "products.product",
+            model: "products",
+          },
+        })
         .populate({
           path: "cart",
           populate: {

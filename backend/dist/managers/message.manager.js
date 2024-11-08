@@ -15,7 +15,10 @@ class MessageManager {
     getAllMessages() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield message_model_1.MessageModel.find().populate("conversation").populate("user").exec();
+                return yield message_model_1.MessageModel.find()
+                    .populate("conversation")
+                    .populate("user")
+                    .exec();
             }
             catch (error) {
                 console.error("Error in MessageManager getAllMessages:", error);
@@ -26,7 +29,10 @@ class MessageManager {
     getMessagesByConversation(conversationId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield message_model_1.MessageModel.find({ conversation: conversationId }).populate("conversation").populate("user").exec();
+                return yield message_model_1.MessageModel.find({ conversation: conversationId })
+                    .populate("conversation")
+                    .populate("user")
+                    .exec();
             }
             catch (error) {
                 console.error("Error in MessageManager getMessagesByConversation:", error);
@@ -42,7 +48,10 @@ class MessageManager {
                     user,
                     content,
                 });
-                const populatedMessage = yield message_model_1.MessageModel.findById(newMessage._id).populate("conversation").populate("user").exec();
+                const populatedMessage = yield message_model_1.MessageModel.findById(newMessage._id)
+                    .populate("conversation")
+                    .populate("user")
+                    .exec();
                 return populatedMessage;
             }
             catch (error) {

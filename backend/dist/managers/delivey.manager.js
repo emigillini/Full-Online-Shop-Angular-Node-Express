@@ -23,7 +23,7 @@ class DeliveryManager {
                 const newDelivery = yield delivery_model_1.DeliveryModel.create({
                     purchase: purchaseid,
                     delivery_address: user.adress || user.email,
-                    delivery_status: "Pending"
+                    delivery_status: "Pending",
                 });
                 const populatedDelivery = yield delivery_model_1.DeliveryModel.findById(newDelivery._id)
                     .populate("purchase")
@@ -56,7 +56,7 @@ class DeliveryManager {
             try {
                 const newDelivery = yield delivery_model_1.DeliveryModel.findByIdAndUpdate(delivery_id, { delivery_status: delivery_status }, {
                     new: true,
-                    runValidators: true
+                    runValidators: true,
                 });
                 return newDelivery;
             }

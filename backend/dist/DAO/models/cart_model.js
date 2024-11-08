@@ -27,13 +27,19 @@ exports.CartModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const CartsCollection = "carts";
 const CartsSchema = new mongoose_1.default.Schema({
-    user: { type: mongoose_1.Schema.Types.ObjectId, ref: 'users', required: true },
+    user: { type: mongoose_1.Schema.Types.ObjectId, ref: "users", required: true },
     date: { type: Date, required: true, default: Date.now },
-    products: [{
-            product: { type: mongoose_1.Schema.Types.ObjectId, ref: 'products', required: true },
-            quantity: { type: Number, required: true }
-        }]
+    products: [
+        {
+            product: {
+                type: mongoose_1.Schema.Types.ObjectId,
+                ref: "products",
+                required: true,
+            },
+            quantity: { type: Number, required: true },
+        },
+    ],
 }, { timestamps: true });
-CartsSchema.set('toObject', { virtuals: true });
-CartsSchema.set('toJSON', { virtuals: true });
+CartsSchema.set("toObject", { virtuals: true });
+CartsSchema.set("toJSON", { virtuals: true });
 exports.CartModel = mongoose_1.default.model(CartsCollection, CartsSchema);

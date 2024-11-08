@@ -29,7 +29,9 @@ class ProductManager {
     getProducts() {
         return __awaiter(this, arguments, void 0, function* (filters = {}) {
             try {
-                const products = yield product_model_1.ProductModel.find(filters).populate('brand').exec();
+                const products = yield product_model_1.ProductModel.find(filters)
+                    .populate("brand")
+                    .exec();
                 return products;
             }
             catch (error) {
@@ -41,7 +43,7 @@ class ProductManager {
     getProductById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const product = yield product_model_1.ProductModel.findById(id).populate('brand').exec();
+                const product = yield product_model_1.ProductModel.findById(id).populate("brand").exec();
                 return product;
             }
             catch (error) {
@@ -54,7 +56,9 @@ class ProductManager {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const productId = new mongoose_1.Types.ObjectId(current_product_id);
-                const products = yield product_model_1.ProductModel.find({ _id: { $ne: productId } }).exec();
+                const products = yield product_model_1.ProductModel.find({
+                    _id: { $ne: productId },
+                }).exec();
                 if (products.length === 0) {
                     return null;
                 }
@@ -72,8 +76,10 @@ class ProductManager {
             try {
                 const newProduct = yield product_model_1.ProductModel.findByIdAndUpdate(id, updateData, {
                     new: true,
-                    runValidators: true
-                }).populate('brand').exec();
+                    runValidators: true,
+                })
+                    .populate("brand")
+                    .exec();
                 return newProduct;
             }
             catch (error) {
@@ -91,7 +97,9 @@ class ProductManager {
                     throw new Error("Brand not found");
                 }
                 console.log(`Searching for products with brand ID: ${brand._id}`);
-                const products = yield product_model_1.ProductModel.find({ brand: brand._id }).populate('brand').exec();
+                const products = yield product_model_1.ProductModel.find({ brand: brand._id })
+                    .populate("brand")
+                    .exec();
                 return products;
             }
             catch (error) {

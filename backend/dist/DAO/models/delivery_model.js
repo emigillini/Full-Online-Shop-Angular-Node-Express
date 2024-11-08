@@ -28,22 +28,26 @@ const mongoose_1 = __importStar(require("mongoose"));
 const utils_1 = require("../../utils/utils");
 const DeliveryCollection = "delivery";
 const DeliverySchema = new mongoose_1.default.Schema({
-    purchase: { type: mongoose_1.Schema.Types.ObjectId, ref: 'purchases', required: true },
-    tracking_number: { type: String, required: true, default: function () {
+    purchase: { type: mongoose_1.Schema.Types.ObjectId, ref: "purchases", required: true },
+    tracking_number: {
+        type: String,
+        required: true,
+        default: function () {
             const timestamp = Date.now().toString(15);
             return `TNUMBER-${timestamp}`;
-        }, },
+        },
+    },
     delivery_address: { type: String, required: true },
     estimated_date: {
         type: Date,
         required: true,
         default: function () {
             return (0, utils_1.addDays)(new Date(), 3);
-        }
+        },
     },
     delivery_date: { type: Date, required: true, default: Date.now },
     delivery_status: { type: String, required: true },
 });
-DeliverySchema.set('toObject', { virtuals: true });
-DeliverySchema.set('toJSON', { virtuals: true });
+DeliverySchema.set("toObject", { virtuals: true });
+DeliverySchema.set("toJSON", { virtuals: true });
 exports.DeliveryModel = mongoose_1.default.model(DeliveryCollection, DeliverySchema);

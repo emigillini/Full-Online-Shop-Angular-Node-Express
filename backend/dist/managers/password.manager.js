@@ -22,26 +22,28 @@ class PasswordManager {
         return __awaiter(this, void 0, void 0, function* () {
             const user = yield user_model_1.UserModel.findOne({ email });
             if (!user) {
-                throw new Error('User not found');
+                throw new Error("User not found");
             }
-            const token = jsonwebtoken_1.default.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            const resetLink = `http://localhost:4200/reset-password/${user._id}/${token}`;
+            const token = jsonwebtoken_1.default.sign({ id: user._id }, process.env.JWT_SECRET, {
+                expiresIn: "1h",
+            });
+            const resetLink = `https://fullexpressangular.netlify.app/reset-password/${user._id}/${token}`;
             const message = `<div>
           <p>Click the link below to reset your password:</p> 
           <p><a href="${resetLink}">${resetLink}</a></p>
         </div>`;
-            yield mail_service_1.EmailService.sendEmail('Password Reset Request', message, email);
+            yield mail_service_1.EmailService.sendEmail("Password Reset Request", message, email);
         });
     }
     resetPassword(uid, token, newPassword) {
         return __awaiter(this, void 0, void 0, function* () {
             const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
             if (decoded.id !== uid) {
-                throw new Error('Invalid token');
+                throw new Error("Invalid token");
             }
             const user = yield user_model_1.UserModel.findById(uid);
             if (!user) {
-                throw new Error('User not found');
+                throw new Error("User not found");
             }
             user.password = yield (0, auth_1.hashPassword)(newPassword);
             yield user.save();

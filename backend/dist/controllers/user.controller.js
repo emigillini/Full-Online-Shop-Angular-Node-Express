@@ -44,10 +44,10 @@ class UserController {
             try {
                 const user = req.user;
                 if (!user) {
-                    res.status(400).json({ message: 'No user is logged in' });
+                    res.status(400).json({ message: "No user is logged in" });
                     return;
                 }
-                res.status(200).json({ message: 'Logout successful', user });
+                res.status(200).json({ message: "Logout successful", user });
             }
             catch (error) {
                 console.error("Error in userController: logout", error);
@@ -85,7 +85,7 @@ class UserController {
                 const user = req.user;
                 const updateData = req.body;
                 if (!user || !updateData) {
-                    res.status(400).json({ message: 'Invalid input' });
+                    res.status(400).json({ message: "Invalid input" });
                     return;
                 }
                 const newUser = yield userServ.updateUser(user, updateData);
@@ -93,7 +93,7 @@ class UserController {
                     res.status(200).json(newUser);
                 }
                 else {
-                    res.status(404).json({ message: 'Error Updating User' });
+                    res.status(404).json({ message: "Error Updating User" });
                 }
             }
             catch (error) {

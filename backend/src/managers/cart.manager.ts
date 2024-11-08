@@ -46,7 +46,7 @@ export class CartManager {
         throw new Error("Insufficient stock");
       }
       const productIndex = cart.products.findIndex(
-        (p) => p.product.toString() === product.toString()
+        (p) => p.product._id.toString() === product_id.toString() || p.product.toString() === product_id.toString()
       );
 
       if (productIndex > -1) {
@@ -79,7 +79,7 @@ export class CartManager {
       }
 
       const productIndex = cart.products.findIndex(
-        (p) => p.product.toString() === product.toString()
+        (p) => p.product._id.toString() === product_id.toString() || p.product.toString() === product_id.toString()
       );
 
       if (productIndex > -1) {
@@ -105,6 +105,10 @@ export class CartManager {
       const cart = await CartModel.findOne({ user: userId })
         .sort({ createdAt: -1 })
         .populate("products.product")
+        .populate({
+          path: 'products.product', // Popula los productos en el carrito
+          populate: { path: 'brand' }, // Popula la marca dentro de los productos
+        })
         .populate("user")
 
         .exec();

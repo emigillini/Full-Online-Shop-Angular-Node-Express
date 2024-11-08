@@ -23,17 +23,17 @@ const UserSchema = new mongoose_1.default.Schema({
     is_admin: { type: Boolean, default: false },
     phone: { type: String, maxlength: 45 },
     adress: { type: String, maxlength: 45 },
-    last_connection: { type: Date, default: Date.now }
+    last_connection: { type: Date, default: Date.now },
 });
-UserSchema.virtual('conversations', {
-    ref: 'ConversationModel',
-    localField: '_id',
-    foreignField: 'user'
+UserSchema.virtual("conversations", {
+    ref: "ConversationModel",
+    localField: "_id",
+    foreignField: "user",
 });
-UserSchema.virtual('purchases', {
-    ref: 'PurchaseModel',
-    localField: '_id',
-    foreignField: 'user'
+UserSchema.virtual("purchases", {
+    ref: "PurchaseModel",
+    localField: "_id",
+    foreignField: "user",
 });
 UserSchema.methods.updateLastConnection = function () {
     return __awaiter(this, void 0, void 0, function* () {
@@ -41,6 +41,6 @@ UserSchema.methods.updateLastConnection = function () {
         yield this.save();
     });
 };
-UserSchema.set('toObject', { virtuals: true });
-UserSchema.set('toJSON', { virtuals: true });
+UserSchema.set("toObject", { virtuals: true });
+UserSchema.set("toJSON", { virtuals: true });
 exports.UserModel = mongoose_1.default.model(usersCollection, UserSchema);

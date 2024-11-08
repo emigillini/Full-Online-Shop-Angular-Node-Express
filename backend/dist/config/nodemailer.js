@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.transporter = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
 exports.transporter = nodemailer_1.default.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
         user: process.env.EMAIL_HOST_USER,
-        pass: process.env.EMAIL_HOST_PASSWORD
-    }
+        pass: process.env.EMAIL_HOST_PASSWORD,
+    },
 });

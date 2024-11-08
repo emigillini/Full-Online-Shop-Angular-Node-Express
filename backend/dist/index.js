@@ -58,29 +58,34 @@ app.use((0, helmet_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(passport_1.default.initialize());
-const allowedOrigins = ['http://localhost:4200', 'https://fullexpressangular.netlify.app'];
+const allowedOrigins = [
+    "http://localhost:4200",
+    "https://fullexpressangular.netlify.app",
+    "http://localhost:3000",
+    "http://10.0.2.2:3000",
+];
 app.use((0, cors_1.default)({
     origin: (origin, callback) => {
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         }
         else {
-            callback(new Error('Not allowed by CORS'));
+            callback(new Error("Not allowed by CORS"));
         }
     },
-    optionsSuccessStatus: 200
+    optionsSuccessStatus: 200,
 }));
-app.use('/api/products', products_routes_1.default);
-app.use('/api/users', user_routes_1.default);
-app.use('/api/cart', cart_routes_1.default);
-app.use('/api/purchase', purchase_routes_1.default);
-app.use('/api/deliveries', delivery_routes_1.default);
-app.use('/api/send_mail', mail_routes_1.default);
-app.use('/api/password', password_routes_1.default);
-app.use('/api/conversation', conversations_routes_1.default);
-app.use('/api/message', message_routes_1.default);
-app.use('/api/brand', brand_routes_1.default);
-app.use('/api/payment', payment_routes_1.default);
+app.use("/api/products", products_routes_1.default);
+app.use("/api/users", user_routes_1.default);
+app.use("/api/cart", cart_routes_1.default);
+app.use("/api/purchase", purchase_routes_1.default);
+app.use("/api/deliveries", delivery_routes_1.default);
+app.use("/api/send_mail", mail_routes_1.default);
+app.use("/api/password", password_routes_1.default);
+app.use("/api/conversation", conversations_routes_1.default);
+app.use("/api/message", message_routes_1.default);
+app.use("/api/brand", brand_routes_1.default);
+app.use("/api/payment", payment_routes_1.default);
 const PORT = process.env.PORT;
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {

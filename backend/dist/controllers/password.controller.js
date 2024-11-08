@@ -18,7 +18,11 @@ class PasswordController {
             const { email } = req.body;
             try {
                 yield passwordservice.requestPasswordReset(email);
-                res.status(200).json({ message: 'If an account with that email exists, a reset link has been sent.' });
+                res
+                    .status(200)
+                    .json({
+                    message: "If an account with that email exists, a reset link has been sent.",
+                });
             }
             catch (error) {
                 res.status(400).json({ message: error.message });
@@ -32,7 +36,7 @@ class PasswordController {
             const token = req.params.token;
             try {
                 yield passwordservice.resetPassword(uid, token, new_password);
-                res.status(200).json({ message: 'Password has been reset' });
+                res.status(200).json({ message: "Password has been reset" });
             }
             catch (error) {
                 res.status(400).json({ message: error.message });

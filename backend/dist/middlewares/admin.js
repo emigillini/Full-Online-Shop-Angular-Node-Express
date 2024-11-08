@@ -7,7 +7,7 @@ const adminOnly = (req, res, next) => {
         next();
     }
     else {
-        res.status(403).json({ message: ' Admins only' });
+        res.status(403).json({ message: " Admins only" });
     }
 };
 exports.adminOnly = adminOnly;

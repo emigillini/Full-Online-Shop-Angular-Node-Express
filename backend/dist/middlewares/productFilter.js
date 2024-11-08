@@ -7,7 +7,7 @@ const filterMiddleware = (req, res, next) => {
     if (brand)
         filters.brand = brand;
     if (has_stock !== undefined) {
-        filters.stock = has_stock === 'true' ? { $gt: 0 } : { $eq: 0 };
+        filters.stock = has_stock === "true" ? { $gt: 0 } : { $eq: 0 };
     }
     if (min_price)
         filters.price = Object.assign(Object.assign({}, filters.price), { $gte: parseFloat(min_price) });

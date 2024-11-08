@@ -23,14 +23,19 @@ class PurchaseManager {
     create_purchase(userId, paymentType) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const paymentModeType = yield payment_model_1.PaymentModel.findOne({ description: paymentType }).exec();
+                const paymentModeType = yield payment_model_1.PaymentModel.findOne({
+                    description: paymentType,
+                }).exec();
                 console.log(paymentModeType);
                 if (!paymentModeType) {
                     throw new Error("Payment type not found");
                 }
                 const paymentTypeId = paymentModeType._id;
                 console.log(paymentTypeId);
-                const cart = yield cart_model_1.CartModel.findOne({ user: userId }).sort({ createdAt: -1 }).populate('products.product').exec();
+                const cart = yield cart_model_1.CartModel.findOne({ user: userId })
+                    .sort({ createdAt: -1 })
+                    .populate("products.product")
+                    .exec();
                 if (!cart) {
                     throw new Error("Cart not found");
                 }
@@ -45,16 +50,16 @@ class PurchaseManager {
                     yield product_model_1.ProductModel.updateOne({ _id: product._id }, { $inc: { stock: -item.quantity } });
                 }
                 const totalPrice = (0, utils_1.calculateTotalPrice)(cart);
-                if (paymentType === 'Stripe') {
+                if (paymentType === "Stripe") {
                     const paymentMethodId = "pm_card_visa";
                     const amountInCents = totalPrice * 100;
                     const paymentIntent = yield stripe_service_1.StripeService.createPaymentIntent(amountInCents);
                     const confirmedIntent = yield stripe_service_1.StripeService.confirmPaymentIntent(paymentIntent.id, paymentMethodId);
-                    if (confirmedIntent.status !== 'succeeded') {
-                        throw new Error('Payment failed: ' + confirmedIntent.status);
+                    if (confirmedIntent.status !== "succeeded") {
+                        throw new Error("Payment failed: " + confirmedIntent.status);
                     }
                 }
-                else if (paymentType === 'Cash') {
+                else if (paymentType === "Cash") {
                 }
                 else {
                     throw new Error("Unsupported payment method");
@@ -63,27 +68,33 @@ class PurchaseManager {
                     user: userId,
                     paymentType: paymentTypeId,
                     cart: cart._id,
-                    total: totalPrice
+                    total: totalPrice,
                 });
-                // Create the delivery with the new purchase ID
                 const delivery = yield delivery_service_1.DeliveryService.create_delivery(userId, newPurchase._id);
-                // Update the purchase to include the delivery ID
-                const populatedPurchase = yield purchase_model_1.PurchaseModel.findByIdAndUpdate(newPurchase._id, { delivery: delivery._id }, // Save delivery ID in the purchase
-                { new: true } // Return the updated document
-                )
-                    .populate('user')
+                const populatedPurchase = yield purchase_model_1.PurchaseModel.findByIdAndUpdate(newPurchase._id, { delivery: delivery._id }, { new: true })
+                    .populate("user")
                     .populate({
-                    path: 'cart',
+                    path: "cart",
                     populate: {
-                        path: 'products.product',
-                        model: 'products'
+                        path: "products.product", // Poblamos el producto
+                        model: "products",
+                        populate: {
+                            path: "brand", // Poblamos la marca del producto
+                            model: "brands"
+                        }
                     }
                 })
-                    .populate('delivery')
+                    .populate({
+                    path: "cart",
+                    populate: {
+                        path: "user",
+                        model: "users",
+                    },
+                })
+                    .populate("delivery")
                     .exec();
                 yield cartservice.createCart(userId);
                 return { purchase: populatedPurchase, delivery: delivery };
-                ;
             }
             catch (error) {
                 console.error("Error creating purchase:", error);
@@ -95,14 +106,21 @@ class PurchaseManager {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const purchases = yield purchase_model_1.PurchaseModel.find({ user: userId })
-                    .populate('delivery')
+                    .populate("delivery")
                     .populate("cart")
                     .populate({
-                    path: 'cart',
+                    path: "cart",
                     populate: {
-                        path: 'products.product',
-                        model: 'products'
-                    }
+                        path: "products.product",
+                        model: "products",
+                    },
+                })
+                    .populate({
+                    path: "cart",
+                    populate: {
+                        path: "products.product",
+                        model: "products",
+                    },
                 })
                     .exec();
                 return purchases;
@@ -117,13 +135,13 @@ class PurchaseManager {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const purchases = yield purchase_model_1.PurchaseModel.find()
-                    .populate('user')
+                    .populate("user")
                     .populate({
-                    path: 'cart',
+                    path: "cart",
                     populate: {
-                        path: 'products.product',
-                        model: 'products'
-                    }
+                        path: "products.product",
+                        model: "products",
+                    },
                 })
                     .exec();
                 return purchases;

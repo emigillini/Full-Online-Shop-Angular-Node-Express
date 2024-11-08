@@ -16,7 +16,7 @@ exports.StripeService = void 0;
 const stripe_1 = __importDefault(require("../config/stripe"));
 class StripeService {
     static createPaymentIntent(amount_1) {
-        return __awaiter(this, arguments, void 0, function* (amount, currency = 'eur') {
+        return __awaiter(this, arguments, void 0, function* (amount, currency = "eur") {
             try {
                 const intent = yield stripe_1.default.paymentIntents.create({
                     amount,

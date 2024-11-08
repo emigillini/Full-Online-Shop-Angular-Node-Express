@@ -9,6 +9,6 @@ const BrandsCollection = "brands";
 const BrandsSchema = new mongoose_1.default.Schema({
     description: { type: String, required: true },
 });
-BrandsSchema.set('toObject', { virtuals: true });
-BrandsSchema.set('toJSON', { virtuals: true });
+BrandsSchema.set("toObject", { virtuals: true });
+BrandsSchema.set("toJSON", { virtuals: true });
 exports.BrandModel = mongoose_1.default.model(BrandsCollection, BrandsSchema);

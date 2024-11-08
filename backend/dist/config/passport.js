@@ -17,7 +17,7 @@ const passport_jwt_1 = require("passport-jwt");
 const user_model_1 = require("../DAO/models/user_model");
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
-    throw new Error('JWT_SECRET is not defined in environment variables');
+    throw new Error("JWT_SECRET is not defined in environment variables");
 }
 const options = {
     jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -25,8 +25,8 @@ const options = {
 };
 const jwtFromRequest = (req) => {
     const authHeader = req.headers.authorization;
-    if (authHeader && authHeader.startsWith('Token ')) {
-        return authHeader.split(' ')[1];
+    if (authHeader && authHeader.startsWith("Token ")) {
+        return authHeader.split(" ")[1];
     }
     return null;
 };

@@ -11,10 +11,10 @@ const validationErrorHandler_1 = require("../middlewares/validationErrorHandler"
 const passport_1 = __importDefault(require("passport"));
 const conversationRoutes = (0, express_1.Router)();
 const conversationCont = new conversation_controller_1.ConversationController();
-conversationRoutes.post('/', passport_1.default.authenticate('jwt', { session: false }), conversationValidators_1.createConversationValidators, validationErrorHandler_1.validationErrorHandler, conversationCont.createConversation.bind(conversationCont));
-conversationRoutes.get('/user', passport_1.default.authenticate('jwt', { session: false }), validationErrorHandler_1.validationErrorHandler, conversationCont.getUserConversations.bind(conversationCont));
-conversationRoutes.get('/all', passport_1.default.authenticate('jwt', { session: false }), conversationCont.getAllConversations);
-conversationRoutes.get('/:id', passport_1.default.authenticate('jwt', { session: false }), conversationValidators_1.conversationIdValidator, validationErrorHandler_1.validationErrorHandler, conversationCont.getById.bind(conversationCont));
-conversationRoutes.delete('/:id', passport_1.default.authenticate('jwt', { session: false }), conversationValidators_1.conversationIdValidator, validationErrorHandler_1.validationErrorHandler, conversationCont.deleteConversation.bind(conversationCont));
-conversationRoutes.post('/:id/close', passport_1.default.authenticate('jwt', { session: false }), admin_1.adminOnly, conversationValidators_1.conversationIdValidator, validationErrorHandler_1.validationErrorHandler, conversationCont.closeConversation);
+conversationRoutes.post("/", passport_1.default.authenticate("jwt", { session: false }), conversationValidators_1.createConversationValidators, validationErrorHandler_1.validationErrorHandler, conversationCont.createConversation);
+conversationRoutes.get("/user", passport_1.default.authenticate("jwt", { session: false }), validationErrorHandler_1.validationErrorHandler, conversationCont.getUserConversations);
+conversationRoutes.get("/all", passport_1.default.authenticate("jwt", { session: false }), conversationCont.getAllConversations);
+conversationRoutes.get("/:id", passport_1.default.authenticate("jwt", { session: false }), conversationValidators_1.conversationIdValidator, validationErrorHandler_1.validationErrorHandler, conversationCont.getById);
+conversationRoutes.delete("/:id", passport_1.default.authenticate("jwt", { session: false }), conversationValidators_1.conversationIdValidator, validationErrorHandler_1.validationErrorHandler, conversationCont.deleteConversation);
+conversationRoutes.post("/:id/close", passport_1.default.authenticate("jwt", { session: false }), admin_1.adminOnly, conversationValidators_1.conversationIdValidator, validationErrorHandler_1.validationErrorHandler, conversationCont.closeConversation);
 exports.default = conversationRoutes;

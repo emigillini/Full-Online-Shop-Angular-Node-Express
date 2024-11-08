@@ -17,15 +17,15 @@ class EmailController {
             const { subject, message, toEmail } = req.body;
             try {
                 const result = yield mail_service_1.EmailService.sendEmail(subject, message, toEmail);
-                if (result.status === 'success') {
-                    res.status(200).json({ status: 'success' });
+                if (result.status === "success") {
+                    res.status(200).json({ status: "success" });
                 }
                 else {
-                    res.status(500).json({ status: 'error', message: result.message });
+                    res.status(500).json({ status: "error", message: result.message });
                 }
             }
             catch (error) {
-                res.status(500).json({ status: 'error', message: error.message });
+                res.status(500).json({ status: "error", message: error.message });
             }
         });
     }

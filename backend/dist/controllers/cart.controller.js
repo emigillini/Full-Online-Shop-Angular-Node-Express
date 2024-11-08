@@ -36,7 +36,7 @@ class CartController {
                 const user = req.user;
                 const { product_id, quantity = 1 } = req.body;
                 const updatedCart = yield cartserv.addProduct(user._id, product_id, quantity);
-                res.status(200).json({ "message": "Product Added", cart: updatedCart });
+                res.status(200).json({ message: "Product Added", cart: updatedCart });
             }
             catch (error) {
                 console.error("Error in CartController addProduct:", error);
@@ -50,7 +50,7 @@ class CartController {
                 const user = req.user;
                 const { product_id, quantity = 1 } = req.body;
                 const updatedCart = yield cartserv.removeProduct(user._id, product_id, quantity);
-                res.status(200).json({ "message": "Product Removed", cart: updatedCart });
+                res.status(200).json({ message: "Product Removed", cart: updatedCart });
             }
             catch (error) {
                 console.error("Error in CartController removeProduct:", error);

@@ -27,17 +27,25 @@ exports.PurchaseModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const PurchaseCollection = "purchases";
 const PurchaseSchema = new mongoose_1.default.Schema({
-    invoice_number: { type: String, required: true, default: function () {
+    invoice_number: {
+        type: String,
+        required: true,
+        default: function () {
             const timestamp = Date.now().toString(36);
             return `TICKET-${timestamp}`;
-        }, },
+        },
+    },
     date: { type: Date, required: true, default: Date.now },
-    user: { type: mongoose_1.Schema.Types.ObjectId, ref: 'users', required: true },
+    user: { type: mongoose_1.Schema.Types.ObjectId, ref: "users", required: true },
     total: { type: Number, required: true, default: 0 },
-    paymentType: { type: mongoose_1.Schema.Types.ObjectId, ref: 'paymentType', required: true },
-    cart: { type: mongoose_1.Schema.Types.ObjectId, ref: 'carts', required: true },
-    delivery: { type: mongoose_1.Schema.Types.ObjectId, ref: 'delivery' }
+    paymentType: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "paymentType",
+        required: true,
+    },
+    cart: { type: mongoose_1.Schema.Types.ObjectId, ref: "carts", required: true },
+    delivery: { type: mongoose_1.Schema.Types.ObjectId, ref: "delivery" },
 });
-PurchaseSchema.set('toObject', { virtuals: true });
-PurchaseSchema.set('toJSON', { virtuals: true });
+PurchaseSchema.set("toObject", { virtuals: true });
+PurchaseSchema.set("toJSON", { virtuals: true });
 exports.PurchaseModel = mongoose_1.default.model(PurchaseCollection, PurchaseSchema);

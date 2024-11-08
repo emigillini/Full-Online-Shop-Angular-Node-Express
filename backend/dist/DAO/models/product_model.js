@@ -34,7 +34,7 @@ const ProductSchema = new mongoose_1.Schema({
     },
     brand: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'brands',
+        ref: "brands",
         required: true,
     },
     color: {
@@ -50,8 +50,8 @@ const ProductSchema = new mongoose_1.Schema({
     price: { type: Number, required: true },
     stock: { type: Number, required: true },
     image: { type: String, default: null },
-    detail: { type: String, default: '' },
+    detail: { type: String, default: "" },
 });
-ProductSchema.set('toObject', { virtuals: true });
-ProductSchema.set('toJSON', { virtuals: true });
+ProductSchema.set("toObject", { virtuals: true });
+ProductSchema.set("toJSON", { virtuals: true });
 exports.ProductModel = mongoose_1.default.model(ProductsCollection, ProductSchema);

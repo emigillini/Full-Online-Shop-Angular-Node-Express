@@ -43,7 +43,7 @@ class UserService {
                 return yield userMan.getAllUsers();
             }
             catch (error) {
-                console.error('Error Fetching Users:', error);
+                console.error("Error Fetching Users:", error);
                 throw new Error(`Error Fetching Users: ${error.message}`);
             }
         });
@@ -54,7 +54,7 @@ class UserService {
                 return yield userMan.updateUser(user, updateData);
             }
             catch (error) {
-                console.error('Error Fetching Users:', error);
+                console.error("Error Fetching Users:", error);
                 throw new Error(`Error Fetching Users: ${error.message}`);
             }
         });

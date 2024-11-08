@@ -37,14 +37,16 @@ class UserManager {
             try {
                 const user = yield user_model_1.UserModel.findOne({ email: userData.email });
                 if (!user) {
-                    throw new Error('User not found');
+                    throw new Error("User not found");
                 }
                 const isMatch = yield bcrypt_1.default.compare(userData.password, user.password);
                 if (!isMatch) {
-                    throw new Error('Invalid password');
+                    throw new Error("Invalid password");
                 }
-                const expiresIn = '2h';
-                const token = jsonwebtoken_1.default.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn });
+                const expiresIn = "2h";
+                const token = jsonwebtoken_1.default.sign({ id: user._id }, process.env.JWT_SECRET, {
+                    expiresIn,
+                });
                 const expirationDate = Math.floor(Date.now() / 1000) + 7200;
                 return { user, token, expires_in: expirationDate };
             }
@@ -56,7 +58,7 @@ class UserManager {
     getAllUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield user_model_1.UserModel.find().select('-password');
+                return yield user_model_1.UserModel.find().select("-password");
             }
             catch (error) {
                 throw new Error(`Error fetching users: ${error.message}`);
@@ -66,7 +68,7 @@ class UserManager {
     updateUser(user, updateData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const updatedUser = yield user_model_1.UserModel.findByIdAndUpdate(user.id, updateData, { new: true }).select('-password');
+                const updatedUser = yield user_model_1.UserModel.findByIdAndUpdate(user.id, updateData, { new: true }).select("-password");
                 return updatedUser;
             }
             catch (error) {
